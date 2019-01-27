@@ -42,8 +42,7 @@ public class Hardware
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
     }
-
-    public void
+    
 
     public Hardware(DcMotor.RunMode enteredMode)
     {
