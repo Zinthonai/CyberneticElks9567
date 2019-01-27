@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -119,24 +118,8 @@ public class TeleOp18_19 extends LinearOpMode {
         try {
 
             h.init(hardwareMap);
-            /*
-            motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-            motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-            motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+/*
 
-            motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-            motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-            motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
-            motorChain = hardwareMap.dcMotor.get("motorChain");
-            motorChain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorWinch = hardwareMap.dcMotor.get("motorWinch");
-            motorWinch.setDirection(DcMotorSimple.Direction.REVERSE);
-            motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorLift = hardwareMap.dcMotor.get("motorLift");
-            motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            motorStarSpinner = hardwareMap.dcMotor.get("motorStarSpinner");
             markerDropServo = hardwareMap.servo.get("markerDropServo");
 
 
@@ -148,21 +131,6 @@ public class TeleOp18_19 extends LinearOpMode {
         } catch (Exception e) {
             telemetry.addData("Init Error:", "Something failed to initialize");
         }
-
-
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motorChain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorChain.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        motorWinch.setZeroPowerBehavior((DcMotor.ZeroPowerBehavior.BRAKE));
-        motorWinch.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        //motorChain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //motorChain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 /*
         MRGyro.calibrate();
@@ -200,7 +168,22 @@ public class TeleOp18_19 extends LinearOpMode {
             motorFrontLeft.setPower(Math.pow(gamepad1.left_stick_y, 3 / 1) - rotation);
             motorBackLeft.setPower(Math.pow(gamepad1.left_stick_y, 3 / 1) - rotation);
             */
+//DRIVING
 
+            h.motorFrontRight.setPower(gamepad1.right_stick_y);
+            h.motorFrontLeft.setPower(gamepad1.left_stick_y);
+            h.motorBackRight.setPower(gamepad1.right_stick_y);
+            h.motorBackLeft.setPower(gamepad1.right_stick_y);
+
+
+
+
+
+
+
+
+
+            /*
             if (Throttle = true) {
                 if (Math.abs(gamepad1.left_stick_y) > 0) {
                     //FORWARD BACKWARD
@@ -224,16 +207,6 @@ public class TeleOp18_19 extends LinearOpMode {
                     motorFrontLeft.setPower(-gamepad1.left_stick_x/2);
                     motorBackLeft.setPower(gamepad1.left_stick_x/2);
 
-
-
-
-
-                    /*
-                    motorBackRight.setPower(Range.clip(gamepad1.left_stick_x, -0.4, 0.4) - Range.clip(2*(MRGyro.getIntegratedZValue())/100, 0, 0.4));
-                    motorFrontRight.setPower(-Range.clip(gamepad1.left_stick_x, -0.4, 0.4) + Range.clip(2*(MRGyro.getIntegratedZValue())/100, 0, 0.4));
-                    motorFrontLeft.setPower(Range.clip(gamepad1.left_stick_x, -0.4, 0.4) + Range.clip(2*(MRGyro.getIntegratedZValue())/100, 0, 0.4));
-                    motorBackLeft.setPower(-Range.clip(gamepad1.left_stick_x, -0.4, 0.4) - Range.clip(2*(MRGyro.getIntegratedZValue())/100, 0, 0.4));
-                    */
                 } else {
                     motorBackRight.setPower(0);
                     motorFrontRight.setPower(0);
@@ -249,30 +222,6 @@ public class TeleOp18_19 extends LinearOpMode {
                 motorFrontLeft.setPower(gamepad1.left_stick_y);
                 motorBackLeft.setPower(gamepad1.left_stick_y);
             }
-*/
-           /* if (gamepad1.y) {
-                Throttle = false;
-                /*
-                if (Throttle = true)
-                {
-                    Throttle = false;
-                }
-                else
-                {
-                    Throttle = true;
-                }
-                telemetry.clearAll();
-                telemetry.addData("RESETTING DRIVE...", Thread.activeCount());
-                try{
-                    Thread.sleep(1000);
-                }catch(Exception e){}
-
-*/
-
-           /* }
-            if (gamepad1.x) {
-                Throttle = true;
-           }*/
 
             ////////WINCH
             if (gamepad1.dpad_up && motorWinch.getCurrentPosition() < 6300)
@@ -303,21 +252,21 @@ public class TeleOp18_19 extends LinearOpMode {
             */
             ////////SPINNER
             if (gamepad1.a) {
-                motorStarSpinner.setPower(-1);
+                h.motorSpinner.setPower(-1);
             }
             if (gamepad1.b) {
-                motorStarSpinner.setPower(1);
+                h.motorSpinner.setPower(1);
             }
             if (gamepad1.x) {
-                motorStarSpinner.setPower(0);
+                h.motorSpinner.setPower(0);
             }
 
 
 ////////CHAIN
             if (gamepad1.right_trigger > 0 && gamepad1.left_trigger == 0) {
 
-                motorChain.setPower(1);
-                motorChain.setTargetPosition(4200);
+                h.motorArm.setPower(1);
+                h.motorArm.setTargetPosition(4200);
 /*
                 if(motorChain.getCurrentPosition() > 800 && motorChain.getCurrentPosition() < 1300)
                 {
@@ -327,20 +276,20 @@ public class TeleOp18_19 extends LinearOpMode {
                 while (gamepad1.right_trigger > 0) {
 
                 }
-                currentChainPos = motorChain.getCurrentPosition();
+                currentChainPos = h.motorArm.getCurrentPosition();
             }
             if (gamepad1.left_trigger > 0 && gamepad1.right_trigger == 0) {
-                motorChain.setPower(0.5);
-                motorChain.setTargetPosition(50);
+                h.motorArm.setPower(0.5);
+                h.motorArm.setTargetPosition(50);
 
                 while (gamepad1.left_trigger > 0) {
 
                 }
-                currentChainPos = motorChain.getCurrentPosition();
+                currentChainPos = h.motorArm.getCurrentPosition();
             }
             if ((gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0)/* || (gamepad2.left_trigger == 0 && gamepad2.right_trigger == 0)*/) {
                 //motorChain.setPower(0);
-                motorChain.setTargetPosition(currentChainPos);
+                h.motorArm.setTargetPosition(currentChainPos);
 
 
             }
@@ -385,20 +334,20 @@ public class TeleOp18_19 extends LinearOpMode {
 
             //ACTUATOR
             if (gamepad1.dpad_left && motorLift.getCurrentPosition() < 9400) {
-                motorLift.setPower(1);
-                motorLift.setTargetPosition(9400);
+                h.motorLift.setPower(1);
+                h.motorLift.setTargetPosition(9400);
             }
             if (gamepad1.dpad_right && motorLift.getCurrentPosition() > 0) {
-                motorLift.setPower(1);
-                motorLift.setTargetPosition(0);
+                h.motorLift.setPower(1);
+                h.motorLift.setTargetPosition(0);
             }
             if (!gamepad1.dpad_left && !gamepad1.dpad_right) {
-                motorLift.setPower(0);
+                h.motorLift.setPower(0);
             }
 
             //MARKER DROP SERVO
 
-            markerDropServo.setPosition(0.3);
+           // markerDropServo.setPosition(0.3);
 
 
         }

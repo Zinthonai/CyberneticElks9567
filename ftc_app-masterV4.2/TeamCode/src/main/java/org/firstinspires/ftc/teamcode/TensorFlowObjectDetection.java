@@ -64,6 +64,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TensorFlowObjectDetection extends LinearOpMode
 {
+    Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
 

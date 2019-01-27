@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware
 {
@@ -16,6 +17,8 @@ public class Hardware
     public DcMotor motorLift = null;
     public DcMotor motorSpinner = null;
 
+    public Servo markerDropServo = null;
+
     HardwareMap map = null;
 
     DcMotor.RunMode initialMode = null;
@@ -26,6 +29,12 @@ public class Hardware
         motorBackRight = aMap.dcMotor.get("motorBackRight");
         motorFrontLeft = aMap.dcMotor.get("motorBackLeft");
         motorFrontLeft = aMap.dcMotor.get("motorFrontLeft");
+        motorArm = aMap.dcMotor.get("motorArm");
+        motorWinch = aMap.dcMotor.get("motorWinch");
+        motorLift = aMap.dcMotor.get("motorLift");
+        motorSpinner = aMap.dcMotor.get("motorSpinner");
+
+        markerDropServo = aMap.servo.get("markerDropServo");
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -41,8 +50,10 @@ public class Hardware
         motorBackRight.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
+
+
     }
-    
+
 
     public Hardware(DcMotor.RunMode enteredMode)
     {

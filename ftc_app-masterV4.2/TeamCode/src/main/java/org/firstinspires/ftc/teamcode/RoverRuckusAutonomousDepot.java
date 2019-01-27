@@ -47,6 +47,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class RoverRuckusAutonomousDepot extends LinearOpMode
 {
+    Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
+    
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -57,9 +59,9 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
 
     DcMotor motorWinch;
-    DcMotor motorChain;
+    DcMotor motorArm;
     DcMotor motorLift;
-    DcMotor motorStarSpinner;
+    DcMotor motorSpinner;
 
     Servo markerDropServo;
 
@@ -79,10 +81,10 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
         int distanceEncodeVal;
 
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         distanceEncodeVal = -(int)Math.round((distanceInches/(4*Math.PI))*1120);
         driveTime = (distanceInches/10)*1000;
@@ -91,33 +93,33 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
         if(forward)
         {
-            motorFrontLeft.setTargetPosition(distanceEncodeVal);
-            motorFrontRight.setTargetPosition(distanceEncodeVal);
-            motorBackLeft.setTargetPosition(distanceEncodeVal);
-            motorBackRight.setTargetPosition(distanceEncodeVal);
+            h.motorFrontLeft.setTargetPosition(distanceEncodeVal);
+            h.motorFrontRight.setTargetPosition(distanceEncodeVal);
+            h.motorBackLeft.setTargetPosition(distanceEncodeVal);
+            h.motorBackRight.setTargetPosition(distanceEncodeVal);
 
-            motorFrontLeft.setPower(-power);
-            motorFrontRight.setPower(power);
-            motorBackLeft.setPower(-power);
-            motorBackRight.setPower(power);
+            h.motorFrontLeft.setPower(-power);
+            h.motorFrontRight.setPower(power);
+            h.motorBackLeft.setPower(-power);
+            h.motorBackRight.setPower(power);
         }
         else
         {
-            motorFrontLeft.setTargetPosition(-distanceEncodeVal);
-            motorFrontRight.setTargetPosition(-distanceEncodeVal);
-            motorBackLeft.setTargetPosition(-distanceEncodeVal);
-            motorBackRight.setTargetPosition(-distanceEncodeVal);
+            h.motorFrontLeft.setTargetPosition(-distanceEncodeVal);
+            h.motorFrontRight.setTargetPosition(-distanceEncodeVal);
+            h.motorBackLeft.setTargetPosition(-distanceEncodeVal);
+            h.motorBackRight.setTargetPosition(-distanceEncodeVal);
 
-            motorFrontLeft.setPower(power);
-            motorFrontRight.setPower(-power);
-            motorBackLeft.setPower(power);
-            motorBackRight.setPower(-power);
+            h.motorFrontLeft.setPower(power);
+            h.motorFrontRight.setPower(-power);
+            h.motorBackLeft.setPower(power);
+            h.motorBackRight.setPower(-power);
         }
 
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         /*
         while((motorFrontLeft.getCurrentPosition() > distanceEncodeVal) && opModeIsActive())
@@ -134,20 +136,20 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
 
 
-        motorFrontLeft.setTargetPosition(0);
-        motorFrontRight.setTargetPosition(0);
-        motorBackLeft.setTargetPosition(0);
-        motorBackRight.setTargetPosition(0);
+        h.motorFrontLeft.setTargetPosition(0);
+        h.motorFrontRight.setTargetPosition(0);
+        h.motorBackLeft.setTargetPosition(0);
+        h.motorBackRight.setTargetPosition(0);
 
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motorFrontLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
+        h.motorFrontLeft.setPower(0);
+        h.motorFrontRight.setPower(0);
+        h.motorBackLeft.setPower(0);
+        h.motorBackRight.setPower(0);
 
         telemetry.clear();
 
@@ -157,10 +159,10 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
     {
         int distanceEncodeVal;
 
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         distanceEncodeVal = -(int)Math.round((distanceInches/(4*Math.PI))*1120);
         driveTime = (distanceInches/10)*1000;
@@ -169,33 +171,33 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
         if(left)
         {
-            motorFrontLeft.setTargetPosition(-distanceEncodeVal);
-            motorFrontRight.setTargetPosition(-distanceEncodeVal);
-            motorBackLeft.setTargetPosition(distanceEncodeVal);
-            motorBackRight.setTargetPosition(distanceEncodeVal);
+            h.motorFrontLeft.setTargetPosition(-distanceEncodeVal);
+            h.motorFrontRight.setTargetPosition(-distanceEncodeVal);
+            h.motorBackLeft.setTargetPosition(distanceEncodeVal);
+            h.motorBackRight.setTargetPosition(distanceEncodeVal);
 
-            motorFrontLeft.setPower(power);
-            motorFrontRight.setPower(power);
-            motorBackLeft.setPower(power);
-            motorBackRight.setPower(power);
+            h.motorFrontLeft.setPower(power);
+            h.motorFrontRight.setPower(power);
+            h.motorBackLeft.setPower(power);
+            h.motorBackRight.setPower(power);
         }
         else
         {
-            motorFrontLeft.setTargetPosition(distanceEncodeVal);
-            motorFrontRight.setTargetPosition(distanceEncodeVal);
-            motorBackLeft.setTargetPosition(-distanceEncodeVal);
-            motorBackRight.setTargetPosition(-distanceEncodeVal);
+            h.motorFrontLeft.setTargetPosition(distanceEncodeVal);
+            h.motorFrontRight.setTargetPosition(distanceEncodeVal);
+            h.motorBackLeft.setTargetPosition(-distanceEncodeVal);
+            h.motorBackRight.setTargetPosition(-distanceEncodeVal);
 
-            motorFrontLeft.setPower(power);
-            motorFrontRight.setPower(power);
-            motorBackLeft.setPower(power);
-            motorBackRight.setPower(power);
+            h.motorFrontLeft.setPower(power);
+            h.motorFrontRight.setPower(power);
+            h.motorBackLeft.setPower(power);
+            h.motorBackRight.setPower(power);
         }
 
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -216,30 +218,30 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
 
 
-        motorFrontLeft.setTargetPosition(0);
-        motorFrontRight.setTargetPosition(0);
-        motorBackLeft.setTargetPosition(0);
-        motorBackRight.setTargetPosition(0);
+        h.motorFrontLeft.setTargetPosition(0);
+        h.motorFrontRight.setTargetPosition(0);
+        h.motorBackLeft.setTargetPosition(0);
+        h.motorBackRight.setTargetPosition(0);
 
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motorFrontLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
+        h.motorFrontLeft.setPower(0);
+        h.motorFrontRight.setPower(0);
+        h.motorBackLeft.setPower(0);
+        h.motorBackRight.setPower(0);
 
         telemetry.clear();
     }
 
     public void turn(int targetDegrees)
     {
-        motorFrontLeft.setPower(0.5);
-        motorBackLeft.setPower(0.5);
-        motorFrontRight.setPower(0.5);
-        motorBackRight.setPower(0.5);
+        h.motorFrontLeft.setPower(0.5);
+        h.motorBackLeft.setPower(0.5);
+        h.motorFrontRight.setPower(0.5);
+        h.motorBackRight.setPower(0.5);
 
 //Right is all positive
 //Left is all negative
@@ -249,15 +251,15 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
             if(MRGyro.getIntegratedZValue() > 0)
             {
                 //Left of zero
-                motorFrontLeft.setTargetPosition(-10000);
-                motorBackLeft.setTargetPosition(-10000);
-                motorFrontRight.setTargetPosition(10000);
-                motorBackRight.setTargetPosition(10000);
+                h.motorFrontLeft.setTargetPosition(-10000);
+                h.motorBackLeft.setTargetPosition(-10000);
+                h.motorFrontRight.setTargetPosition(10000);
+                h.motorBackRight.setTargetPosition(10000);
 
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
                 {
@@ -266,20 +268,20 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
                     telemetry.update();
 
                 }
-                motorFrontLeft.setPower(0.1);
-                motorBackLeft.setPower(0.1);
-                motorFrontRight.setPower(0.1);
-                motorBackRight.setPower(0.1);
+                h.motorFrontLeft.setPower(0.1);
+                h.motorBackLeft.setPower(0.1);
+                h.motorFrontRight.setPower(0.1);
+                h.motorBackRight.setPower(0.1);
 
-                motorFrontLeft.setTargetPosition(10000);
-                motorBackLeft.setTargetPosition(10000);
-                motorFrontRight.setTargetPosition(-10000);
-                motorBackRight.setTargetPosition(-10000);
+                h.motorFrontLeft.setTargetPosition(10000);
+                h.motorBackLeft.setTargetPosition(10000);
+                h.motorFrontRight.setTargetPosition(-10000);
+                h.motorBackRight.setTargetPosition(-10000);
 
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
@@ -292,35 +294,35 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
             {
                 //Right of zero
 
-                motorFrontLeft.setTargetPosition(10000);
-                motorBackLeft.setTargetPosition(10000);
-                motorFrontRight.setTargetPosition(-10000);
-                motorBackRight.setTargetPosition(-10000);
+                h.motorFrontLeft.setTargetPosition(10000);
+                h.motorBackLeft.setTargetPosition(10000);
+                h.motorFrontRight.setTargetPosition(-10000);
+                h.motorBackRight.setTargetPosition(-10000);
 
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
                     telemetry.addData("turning left", "yes");
                     telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
-                motorFrontLeft.setPower(0.1);
-                motorBackLeft.setPower(0.1);
-                motorFrontRight.setPower(0.1);
-                motorBackRight.setPower(0.1);
+                h.motorFrontLeft.setPower(0.1);
+                h.motorBackLeft.setPower(0.1);
+                h.motorFrontRight.setPower(0.1);
+                h.motorBackRight.setPower(0.1);
 
-                motorFrontLeft.setTargetPosition(-10000);
-                motorBackLeft.setTargetPosition(-10000);
-                motorFrontRight.setTargetPosition(10000);
-                motorBackRight.setTargetPosition(10000);
+                h.motorFrontLeft.setTargetPosition(-10000);
+                h.motorBackLeft.setTargetPosition(-10000);
+                h.motorFrontRight.setTargetPosition(10000);
+                h.motorBackRight.setTargetPosition(10000);
 
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
                 {
@@ -328,25 +330,25 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
                     telemetry.update();
                 }
             }
-            motorFrontLeft.setPower(0);
-            motorBackLeft.setPower(0);
-            motorFrontRight.setPower(0);
-            motorBackRight.setPower(0);
+            h.motorFrontLeft.setPower(0);
+            h.motorBackLeft.setPower(0);
+            h.motorFrontRight.setPower(0);
+            h.motorBackRight.setPower(0);
         }
 
         if(targetDegrees < 0)
         {
 
             //RIGHT
-            motorFrontLeft.setTargetPosition(-10000);
-            motorBackLeft.setTargetPosition(-10000);
-            motorFrontRight.setTargetPosition(10000);
-            motorBackRight.setTargetPosition(10000);
+            h.motorFrontLeft.setTargetPosition(-10000);
+            h.motorBackLeft.setTargetPosition(-10000);
+            h.motorFrontRight.setTargetPosition(10000);
+            h.motorBackRight.setTargetPosition(10000);
 
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
             {
@@ -355,20 +357,20 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
                 telemetry.update();
 
             }
-            motorFrontLeft.setPower(0.1);
-            motorBackLeft.setPower(0.1);
-            motorFrontRight.setPower(0.1);
-            motorBackRight.setPower(0.1);
+            h.motorFrontLeft.setPower(0.1);
+            h.motorBackLeft.setPower(0.1);
+            h.motorFrontRight.setPower(0.1);
+            h.motorBackRight.setPower(0.1);
 
-            motorFrontLeft.setTargetPosition(10000);
-            motorBackLeft.setTargetPosition(10000);
-            motorFrontRight.setTargetPosition(-10000);
-            motorBackRight.setTargetPosition(-10000);
+            h.motorFrontLeft.setTargetPosition(10000);
+            h.motorBackLeft.setTargetPosition(10000);
+            h.motorFrontRight.setTargetPosition(-10000);
+            h.motorBackRight.setTargetPosition(-10000);
 
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
             {
@@ -381,35 +383,35 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
         {
             //LEFT
 
-            motorFrontLeft.setTargetPosition(10000);
-            motorBackLeft.setTargetPosition(10000);
-            motorFrontRight.setTargetPosition(-10000);
-            motorBackRight.setTargetPosition(-10000);
+            h.motorFrontLeft.setTargetPosition(10000);
+            h.motorBackLeft.setTargetPosition(10000);
+            h.motorFrontRight.setTargetPosition(-10000);
+            h.motorBackRight.setTargetPosition(-10000);
 
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
             {
                 telemetry.addData("turning left", "yes");
                 telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
                 telemetry.update();
             }
-            motorFrontLeft.setPower(0.1);
-            motorBackLeft.setPower(0.1);
-            motorFrontRight.setPower(0.1);
-            motorBackRight.setPower(0.1);
+            h.motorFrontLeft.setPower(0.1);
+            h.motorBackLeft.setPower(0.1);
+            h.motorFrontRight.setPower(0.1);
+            h.motorBackRight.setPower(0.1);
 
-            motorFrontLeft.setTargetPosition(-10000);
-            motorBackLeft.setTargetPosition(-10000);
-            motorFrontRight.setTargetPosition(10000);
-            motorBackRight.setTargetPosition(10000);
+            h.motorFrontLeft.setTargetPosition(-10000);
+            h.motorBackLeft.setTargetPosition(-10000);
+            h.motorFrontRight.setTargetPosition(10000);
+            h.motorBackRight.setTargetPosition(10000);
 
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            h.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
             {
@@ -417,29 +419,30 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
                 telemetry.update();
             }
         }
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackRight.setPower(0);
+        h.motorFrontLeft.setPower(0);
+        h.motorBackLeft.setPower(0);
+        h.motorFrontRight.setPower(0);
+        h.motorBackRight.setPower(0);
     }
 
     ////////////////START////////////////
     @Override
     public void runOpMode() throws InterruptedException
     {
+        h.init(hardwareMap);
         telemetry.update();
-        motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+        h.motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
+        h.motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
+        h.motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
+        h.motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
 
-        motorChain = hardwareMap.dcMotor.get("motorChain");
-        motorChain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorLift = hardwareMap.dcMotor.get("motorLift");
-        motorWinch = hardwareMap.dcMotor.get("motorWinch");
-        motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorArm = hardwareMap.dcMotor.get("motorArm");
+        h.motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorLift = hardwareMap.dcMotor.get("motorLift");
+        h.motorWinch = hardwareMap.dcMotor.get("motorWinch");
+        h.motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorStarSpinner = hardwareMap.dcMotor.get("motorStarSpinner");
+        h.motorSpinner = hardwareMap.dcMotor.get("motorSpinner");
 
 ////////////////SERVOS/////////////////
 
@@ -452,28 +455,28 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
         //REVcolor = hardwareMap.colorSensor.get("REVcolor");
 
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        h.motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        h.motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        h.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        h.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        h.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Zero power set
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        h.motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        h.motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        h.motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        h.motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        motorChain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorWinch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        h.motorArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        h.motorWinch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        h.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        h.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Calibrate gyro
 
@@ -489,12 +492,12 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
         waitForStart();
 ////////////////AUTONOMOUS////////////////
 
-        motorLift.setTargetPosition(9500);
-        motorLift.setPower(1);
+        h.motorLift.setTargetPosition(9500);
+        h.motorLift.setPower(1);
 
         Thread.sleep(4500);
 
-        motorLift.setTargetPosition(0);
+        h.motorLift.setTargetPosition(0);
 
         turn(45);
 
@@ -502,14 +505,14 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
         turn(0);
 
-        //motorChain.setPower(0.3);
-        //motorChain.setTargetPosition(600);
+        //motorArm.setPower(0.3);
+        //motorArm.setTargetPosition(600);
 
         //Thread.sleep(1000);
 
         drive(true, 42, 1);
 
-        //motorChain.setTargetPosition(300);
+        //motorArm.setTargetPosition(300);
 
         turn(180);
 
