@@ -31,143 +31,42 @@ public class TeleOp18_19 extends LinearOpMode {
 
     Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
 
-    DcMotor motorBackLeft;
-    DcMotor motorFrontLeft;
-    DcMotor motorBackRight;
-    DcMotor motorFrontRight;
-
-
-    DcMotor motorWinch;
-    DcMotor motorChain;
-    DcMotor motorLift;
-
-
-    DcMotor motorStarSpinner;
-    Servo markerDropServo;
-
-    ModernRoboticsI2cColorSensor MRcolor;
-    ModernRoboticsI2cGyro MRGyro;
-    ModernRoboticsI2cRangeSensor MRRange;
-
-
     int currentChainPos;
-    boolean Throttle = false;
-
-    double rotation;
-
-    public void drive(boolean forward, int distanceEncodeVal) {
-        distanceEncodeVal = -(int) Math.round((distanceEncodeVal / (4 * Math.PI)) * 1120);
-
-        motorFrontLeft.setTargetPosition(distanceEncodeVal);
-        motorFrontRight.setTargetPosition(distanceEncodeVal);
-        motorBackLeft.setTargetPosition(distanceEncodeVal);
-        motorBackRight.setTargetPosition(distanceEncodeVal);
-
-        if (forward) {
-            motorFrontLeft.setPower(-0.3);
-            motorFrontRight.setPower(0.3);
-            motorBackLeft.setPower(-0.3);
-            motorBackRight.setPower(0.3);
-        } else {
-            motorFrontLeft.setPower(0.3);
-            motorFrontRight.setPower(-0.3);
-            motorBackLeft.setPower(0.3);
-            motorBackRight.setPower(-0.3);
-        }
-
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        /*
-        while((motorFrontLeft.getCurrentPosition() > distanceEncodeVal) && opModeIsActive())
-        {
-            telemetry.addData("Running", "...");
-            telemetry.update();
-        }
-        */
-        try {
-            Thread.sleep(5000);
-
-        } catch (Exception e) {
-        }
-
-        motorFrontLeft.setTargetPosition(0);
-        motorFrontRight.setTargetPosition(0);
-        motorBackLeft.setTargetPosition(0);
-        motorBackRight.setTargetPosition(0);
-
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        motorFrontLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-
-        telemetry.clear();
-
-    }
 
     @Override
     public void runOpMode() {
 
         try {
-
             h.init(hardwareMap);
-/*
-
-            markerDropServo = hardwareMap.servo.get("markerDropServo");
-
-
-            MRcolor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "MRcolor");
-            MRGyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "gyro");
-            MRRange = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "MRRange");
-            */
-
         } catch (Exception e) {
             telemetry.addData("Init Error:", "Something failed to initialize");
         }
 
-/*
-        MRGyro.calibrate();
-        while(MRGyro.isCalibrating())
+
+        h.MRGyro.calibrate();
+        while(h.MRGyro.isCalibrating())
         {
             telemetry.update();
             telemetry.addData("Gyro:", "calibrating");
         }
         telemetry.addData("Calibration", "complete");
         telemetry.update();
-*/
+
 
         telemetry.addData("Initialization", "Complete");
         telemetry.update();
         waitForStart();
-        markerDropServo.setPosition(0);
+        h.markerDropServo.setPosition(0);
 
         while (opModeIsActive()) {
 
             telemetry.update();
             telemetry.addData("current Arm Position:", currentChainPos);
-            telemetry.addData("Winch Position:", motorWinch.getCurrentPosition());
-            telemetry.addData("Lift Position:", motorLift.getCurrentPosition());
-            telemetry.addData("Gyro: ", MRGyro.getIntegratedZValue());
-            telemetry.addData("Marker Drop Servo: ", markerDropServo.getPosition());
+            telemetry.addData("Winch Position:", h.motorWinch.getCurrentPosition());
+            telemetry.addData("Lift Position:", h.motorLift.getCurrentPosition());
+            telemetry.addData("Gyro: ", h.MRGyro.getIntegratedZValue());
             telemetry.update();
 
-            //rotation = Math.pow(-gamepad1.right_stick_x, 3/2)/1.5;
-            //
-            /*
-            rotation = -gamepad1.right_stick_x;
-
-            motorBackRight.setPower(Math.pow(gamepad1.left_stick_y, 3 / 1) + rotation);
-            motorFrontRight.setPower(Math.pow(gamepad1.left_stick_y, 3 / 1) + rotation);
-            motorFrontLeft.setPower(Math.pow(gamepad1.left_stick_y, 3 / 1) - rotation);
-            motorBackLeft.setPower(Math.pow(gamepad1.left_stick_y, 3 / 1) - rotation);
-            */
 //DRIVING
 
             h.motorFrontRight.setPower(gamepad1.right_stick_y);
@@ -333,11 +232,11 @@ public class TeleOp18_19 extends LinearOpMode {
 */
 
             //ACTUATOR
-            if (gamepad1.dpad_left && motorLift.getCurrentPosition() < 9400) {
+            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 9400) {
                 h.motorLift.setPower(1);
                 h.motorLift.setTargetPosition(9400);
             }
-            if (gamepad1.dpad_right && motorLift.getCurrentPosition() > 0) {
+            if (gamepad1.dpad_right && h.motorLift.getCurrentPosition() > 0) {
                 h.motorLift.setPower(1);
                 h.motorLift.setTargetPosition(0);
             }
@@ -347,7 +246,7 @@ public class TeleOp18_19 extends LinearOpMode {
 
             //MARKER DROP SERVO
 
-           // markerDropServo.setPosition(0.3);
+           h.markerDropServo.setPosition(0.3);
 
 
         }
