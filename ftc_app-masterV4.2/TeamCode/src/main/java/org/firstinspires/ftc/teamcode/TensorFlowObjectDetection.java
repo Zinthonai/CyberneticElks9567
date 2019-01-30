@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -64,6 +65,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TensorFlowObjectDetection extends LinearOpMode
 {
+
+    WebcamName webcam;
+
     Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
@@ -373,6 +377,10 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
     @Override
     public void runOpMode() {
+
+        webcam = hardwareMap.get(WebcamName.class, "webcam");
+
+
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -382,55 +390,6 @@ public class TensorFlowObjectDetection extends LinearOpMode
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
-
-
-
-        telemetry.update();
-        motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-
-        motorChain = hardwareMap.dcMotor.get("motorChain");
-        motorWinch = hardwareMap.dcMotor.get("motorWinch");
-        motorLift = hardwareMap.dcMotor.get("motorLift");
-////////////////SERVOS/////////////////
-
-        markerDropServo = hardwareMap.servo.get("markerDropServo");
-
-////////////////SENSORS////////////////
-        MRGyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "gyro");
-        MRcolor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "MRcolor");
-
-        //REVcolor = hardwareMap.colorSensor.get("REVcolor");
-
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //Zero power set
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        motorChain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
 
         //Calibrate gyro
 
@@ -452,24 +411,6 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
         waitForStart();
         telemetry.update();
-/*
-        motorLift.setTargetPosition(9400);
-        motorLift.setPower(1);
-        try{
-            Thread.sleep(10000);
-        }catch(Exception e){}
-
-
-        turn(25);
-
-        motorLift.setTargetPosition(0);
-
-        try{
-            Thread.sleep(10000);
-        }catch(Exception e){}
-
-        motorLift.setPower(0);
-        */
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
