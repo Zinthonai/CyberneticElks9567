@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Hardware
+public class Hardware extends LinearOpMode
 {
     public DcMotor motorFrontRight = null;
     public DcMotor motorBackRight = null;
@@ -36,6 +36,11 @@ public class Hardware
     public int currentDegrees;
 
     Telemetry telemetry;
+
+    @Override
+    public void runOpMode()
+    {
+    }
 
     public void init(HardwareMap aMap)
     {
@@ -228,6 +233,16 @@ public class Hardware
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
 
+    }
+
+    public void driveStrafe(double joystickVal)
+    {
+
+
+        motorFrontRight.setPower(-joystickVal);
+        motorBackRight.setPower(joystickVal);
+        motorFrontLeft.setPower(-joystickVal);
+        motorBackLeft.setPower(joystickVal);
     }
 
     public void turn(int targetDegrees)

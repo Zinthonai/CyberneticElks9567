@@ -75,13 +75,6 @@ public class TeleOp18_19 extends LinearOpMode {
             h.motorBackLeft.setPower(gamepad1.right_stick_y);
 
 
-
-
-
-
-
-
-
             /*
             if (Throttle = true) {
                 if (Math.abs(gamepad1.left_stick_y) > 0) {
@@ -164,91 +157,49 @@ public class TeleOp18_19 extends LinearOpMode {
 ////////CHAIN
             if (gamepad1.right_trigger > 0 && gamepad1.left_trigger == 0) {
 
+                //LIFT ARM
+
                 h.motorArm.setPower(1);
                 h.motorArm.setTargetPosition(4200);
-/*
-                if(motorChain.getCurrentPosition() > 800 && motorChain.getCurrentPosition() < 1300)
-                {
-                    motorWinch.setTargetPosition(500);
-                }
-*/
-                while (gamepad1.right_trigger > 0) {
 
+                while (gamepad1.right_trigger > 0) {
                 }
                 currentChainPos = h.motorArm.getCurrentPosition();
             }
             if (gamepad1.left_trigger > 0 && gamepad1.right_trigger == 0) {
+
+                //DROP ARM
+
                 h.motorArm.setPower(0.5);
                 h.motorArm.setTargetPosition(50);
 
                 while (gamepad1.left_trigger > 0) {
-
                 }
                 currentChainPos = h.motorArm.getCurrentPosition();
             }
-            if ((gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0)/* || (gamepad2.left_trigger == 0 && gamepad2.right_trigger == 0)*/) {
+            if ((gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0))
+            {
                 //motorChain.setPower(0);
                 h.motorArm.setTargetPosition(currentChainPos);
-
-
             }
-///DEBUG ON GAMEPAD2
-/*
-        if (gamepad2.right_trigger > 0 && gamepad2.left_trigger == 0) {
 
-            motorChain.setPower(0.5);
-            motorChain.setTargetPosition(10000);
-
-
-            while (gamepad2.right_trigger > 0) {
-
-            }
-            currentChainPos = motorChain.getCurrentPosition();
-        }
-        if (gamepad2.left_trigger > 0 && gamepad2.right_trigger == 0) {
-            motorChain.setPower(0.5);
-            motorChain.setTargetPosition(-10000);
-
-            while (gamepad2.left_trigger > 0) {
-
-            }
-            currentChainPos = motorChain.getCurrentPosition();
-        }*/
 ////////CHAIN END
-            //landerBucket.setPosition(gamepad2.left_stick_y);
-/*
-            if (gamepad1.x)
-            {
-                landerBucket.setPosition(0.8);
-            }
-            if (gamepad1.y)
-            {
-                landerBucket.setPosition(0.2);
-            }
-            if(gamepad1.right_trigger > 0.5)
-            {
-                landerBucket.setPosition(0.5);
-            }
-*/
 
-            //ACTUATOR
-            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 9400) {
+////////ACTUATOR
+            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 9400)
+            {
                 h.motorLift.setPower(1);
                 h.motorLift.setTargetPosition(9400);
             }
-            if (gamepad1.dpad_right && h.motorLift.getCurrentPosition() > 0) {
+            if (gamepad1.dpad_right && h.motorLift.getCurrentPosition() > 0)
+            {
                 h.motorLift.setPower(1);
                 h.motorLift.setTargetPosition(0);
             }
-            if (!gamepad1.dpad_left && !gamepad1.dpad_right) {
+            if (!gamepad1.dpad_left && !gamepad1.dpad_right)
+            {
                 h.motorLift.setPower(0);
             }
-
-            //MARKER DROP SERVO
-
-           h.markerDropServo.setPosition(0.3);
-
-
         }
     }
 }
