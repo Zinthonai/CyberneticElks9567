@@ -40,6 +40,7 @@ public class TeleOp18_19 extends LinearOpMode {
             h.init(hardwareMap);
         } catch (Exception e) {
             telemetry.addData("Init Error:", "Something failed to initialize");
+            e.printStackTrace();
         }
 
 
@@ -68,11 +69,16 @@ public class TeleOp18_19 extends LinearOpMode {
             telemetry.update();
 
 //DRIVING
+            
+            
+            h.driveOmniDir(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
+            /*
             h.motorFrontRight.setPower(gamepad1.right_stick_y);
             h.motorFrontLeft.setPower(gamepad1.left_stick_y);
             h.motorBackRight.setPower(gamepad1.right_stick_y);
             h.motorBackLeft.setPower(gamepad1.right_stick_y);
+            */
 
 
             /*
