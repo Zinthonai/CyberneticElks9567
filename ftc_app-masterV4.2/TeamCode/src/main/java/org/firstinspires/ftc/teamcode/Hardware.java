@@ -235,14 +235,13 @@ public class Hardware extends LinearOpMode
 
     }
 
-    public void driveStrafe(double joystickVal)
+    public void driveOmniDir(double joystickX, double joystickY, double rotation)
     {
-
-
-        motorFrontRight.setPower(-joystickVal);
-        motorBackRight.setPower(joystickVal);
-        motorFrontLeft.setPower(-joystickVal);
-        motorBackLeft.setPower(joystickVal);
+        
+        motorFrontRight.setPower(joystickY + joystickX - rotation);
+        motorBackRight.setPower(joystickY + joystickX - rotation);
+        motorFrontLeft.setPower(joystickY - joystickX + rotation);
+        motorBackLeft.setPower(joystickY - joystickX + rotation);
     }
 
     public void turn(int targetDegrees)
@@ -272,7 +271,7 @@ public class Hardware extends LinearOpMode
 
                 while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
                 {
-                    telemetry.addData("turning right", "yes");
+                    telemetry.addData("Target Value: ", targetDegrees);
                     telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
                     telemetry.update();
 
@@ -294,7 +293,8 @@ public class Hardware extends LinearOpMode
 
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
-                    telemetry.addData("correcting", "yeah");
+                    telemetry.addData("Target Value: ", targetDegrees);
+                    telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
 
@@ -314,7 +314,7 @@ public class Hardware extends LinearOpMode
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
-                    telemetry.addData("turning left", "yes");
+                    telemetry.addData("Target Value: ", targetDegreees);
                     telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
@@ -335,7 +335,8 @@ public class Hardware extends LinearOpMode
 
                 while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
                 {
-                    telemetry.addData("correcting to the right", "yeah");
+                    telemetry.addData("Target Value: ", targetDegrees);
+                    telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
             }
@@ -361,8 +362,8 @@ public class Hardware extends LinearOpMode
 
             while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
             {
-                telemetry.addData("turning right", "yes");
-                telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
+                telemetry.addData("Target: ", targetDegrees);
+                telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
 
             }
@@ -383,7 +384,7 @@ public class Hardware extends LinearOpMode
 
             while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
             {
-                telemetry.addData("correcting", "yeah");
+                telemetry.addData("Heading", MRGyro.getIntegratedZValue());
                 telemetry.update();
             }
 
