@@ -44,10 +44,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -65,9 +62,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TensorFlowObjectDetection extends LinearOpMode
 {
-
-    WebcamName webcam;
-
     Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
@@ -107,11 +101,15 @@ public class TensorFlowObjectDetection extends LinearOpMode
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() {
-
-        webcam = hardwareMap.get(WebcamName.class, "webcam");
-
-        h.init(hardwareMap);
+    public void runOpMode()
+    {
+        try {
+            h.init(hardwareMap);
+        }catch(Exception e)
+        {
+            telemetry.addData("Something failed to initialize", ":");
+            e.printStackTrace();
+        }
 
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
@@ -138,12 +136,13 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
 
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
-
-
+        telemetry.addData("Initialization ", "complete");
+        telemetry.addData("Heading: ", h.MRGyro.getIntegratedZValue());
         waitForStart();
         telemetry.update();
+
+        //START
+
         h.motorLift.setTargetPosition(9600);
         h.motorLift.setPower(1);
 
@@ -156,7 +155,7 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
         h.motorLift.setTargetPosition(0);
 
-        h.strafe(true,2,.5);
+        h.strafe(true,2,0.5);
 
         h.drive(true,15,1);
 
@@ -200,16 +199,14 @@ public class TensorFlowObjectDetection extends LinearOpMode
                           {
                             telemetry.addData("Gold Mineral Position", "Left");
 
-                              h.strafe(true, 16, .5);
-
-                              h.drive(true,12,1);
+                            h.strafe(true, 16, 0.5);
+                            h.drive(true,12,1);
 
                           } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X)
                           {
                             telemetry.addData("Gold Mineral Position", "Right");
 
-                            h.strafe(false, 16, .5);
-
+                            h.strafe(false, 16, 0.5);
                             h.drive(true,12,1);
 
                           } else {
@@ -245,7 +242,7 @@ public class TensorFlowObjectDetection extends LinearOpMode
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CameraDirection.BACK;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "webcam");
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);

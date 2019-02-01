@@ -63,6 +63,11 @@ public class Hardware extends LinearOpMode
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        motorArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorWinch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorSpinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
