@@ -314,7 +314,7 @@ public class Hardware extends LinearOpMode
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
-                    telemetry.addData("Target Value: ", targetDegreees);
+                    telemetry.addData("Target Value: ", targetDegrees);
                     telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
@@ -404,7 +404,7 @@ public class Hardware extends LinearOpMode
             motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
             {
-                telemetry.addData("turning left", "yes");
+                telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
                 telemetry.update();
             }
@@ -425,7 +425,8 @@ public class Hardware extends LinearOpMode
 
             while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
             {
-                telemetry.addData("correcting to the right", "yeah");
+                telemetry.addData("Target Value: ", targetDegrees);
+                telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
             }
         }

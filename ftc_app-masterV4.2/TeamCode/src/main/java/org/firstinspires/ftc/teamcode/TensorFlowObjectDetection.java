@@ -72,278 +72,9 @@ public class TensorFlowObjectDetection extends LinearOpMode
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor motorBackLeft;
-    private DcMotor motorFrontLeft;
-    private DcMotor motorBackRight;
-    private DcMotor motorFrontRight;
-
-
-    DcMotor motorWinch;
-    DcMotor motorChain;
-    DcMotor motorLift;
-
-    Servo markerDropServo;
-
-    ModernRoboticsI2cGyro MRGyro;
-
-    ModernRoboticsI2cColorSensor MRcolor;
-    ColorSensor REVcolor;
-
     public int currentDegrees;
 
     long start = System.currentTimeMillis();
-
-    public void drive(boolean forward, int distanceEncodeVal)
-    {
-        distanceEncodeVal = -(int)Math.round((distanceEncodeVal/(4*Math.PI))*1120);
-
-        motorFrontLeft.setTargetPosition(distanceEncodeVal);
-        motorFrontRight.setTargetPosition(distanceEncodeVal);
-        motorBackLeft.setTargetPosition(distanceEncodeVal);
-        motorBackRight.setTargetPosition(distanceEncodeVal);
-
-        if(forward)
-        {
-            motorFrontLeft.setPower(-0.3);
-            motorFrontRight.setPower(0.3);
-            motorBackLeft.setPower(-0.3);
-            motorBackRight.setPower(0.3);
-        }
-        else
-        {
-            motorFrontLeft.setPower(0.3);
-            motorFrontRight.setPower(-0.3);
-            motorBackLeft.setPower(0.3);
-            motorBackRight.setPower(-0.3);
-        }
-
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        /*
-        while((motorFrontLeft.getCurrentPosition() > distanceEncodeVal) && opModeIsActive())
-        {
-            telemetry.addData("Running", "...");
-            telemetry.update();
-        }
-        */
-        try{
-            Thread.sleep(5000);
-
-        }catch(Exception e){}
-
-        motorFrontLeft.setTargetPosition(0);
-        motorFrontRight.setTargetPosition(0);
-        motorBackLeft.setTargetPosition(0);
-        motorBackRight.setTargetPosition(0);
-
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        motorFrontLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-
-        telemetry.clear();
-
-    }
-
-    public void turn(int targetDegrees)
-    {
-        motorFrontLeft.setPower(0.5);
-        motorBackLeft.setPower(0.5);
-        motorFrontRight.setPower(0.5);
-        motorBackRight.setPower(0.5);
-
-//Right is all positive
-//Left is all negative
-//Straight is left positive. Right negative.
-        if(targetDegrees == 0)
-        {
-            if(MRGyro.getIntegratedZValue() > 0)
-            {
-                //Left of zero
-                motorFrontLeft.setTargetPosition(10000);
-                motorBackLeft.setTargetPosition(10000);
-                motorFrontRight.setTargetPosition(10000);
-                motorBackRight.setTargetPosition(10000);
-
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                while(MRGyro.getIntegratedZValue() > targetDegrees)
-                {
-                    telemetry.addData("turning right", "yes");
-                    telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
-                    telemetry.update();
-
-                }
-                motorFrontLeft.setPower(0.1);
-                motorBackLeft.setPower(0.1);
-                motorFrontRight.setPower(0.1);
-                motorBackRight.setPower(0.1);
-
-                motorFrontLeft.setTargetPosition(-10000);
-                motorBackLeft.setTargetPosition(-10000);
-                motorFrontRight.setTargetPosition(-10000);
-                motorBackRight.setTargetPosition(-10000);
-
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                while(MRGyro.getIntegratedZValue() < targetDegrees)
-                {
-                    telemetry.addData("correcting", "yeah");
-                    telemetry.update();
-                }
-
-            }
-            if(MRGyro.getIntegratedZValue() < 0)
-            {
-                //Right of zero
-
-                motorFrontLeft.setTargetPosition(-10000);
-                motorBackLeft.setTargetPosition(-10000);
-                motorFrontRight.setTargetPosition(-10000);
-                motorBackRight.setTargetPosition(-10000);
-
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                while(MRGyro.getIntegratedZValue() < targetDegrees)
-                {
-                    telemetry.addData("turning left", "yes");
-                    telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
-                    telemetry.update();
-                }
-                motorFrontLeft.setPower(0.1);
-                motorBackLeft.setPower(0.1);
-                motorFrontRight.setPower(0.1);
-                motorBackRight.setPower(0.1);
-
-                motorFrontLeft.setTargetPosition(10000);
-                motorBackLeft.setTargetPosition(10000);
-                motorFrontRight.setTargetPosition(10000);
-                motorBackRight.setTargetPosition(10000);
-
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                while(MRGyro.getIntegratedZValue() > targetDegrees)
-                {
-                    telemetry.addData("correcting to the right", "yeah");
-                    telemetry.update();
-                }
-            }
-            motorFrontLeft.setPower(0);
-            motorBackLeft.setPower(0);
-            motorFrontRight.setPower(0);
-            motorBackRight.setPower(0);
-        }
-
-        if(targetDegrees < 0)
-        {
-
-            //RIGHT
-            motorFrontLeft.setTargetPosition(10000);
-            motorBackLeft.setTargetPosition(10000);
-            motorFrontRight.setTargetPosition(10000);
-            motorBackRight.setTargetPosition(10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            while(MRGyro.getIntegratedZValue() > targetDegrees)
-            {
-                telemetry.addData("turning right", "yes");
-                telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
-                telemetry.update();
-
-            }
-            motorFrontLeft.setPower(0.1);
-            motorBackLeft.setPower(0.1);
-            motorFrontRight.setPower(0.1);
-            motorBackRight.setPower(0.1);
-
-            motorFrontLeft.setTargetPosition(-10000);
-            motorBackLeft.setTargetPosition(-10000);
-            motorFrontRight.setTargetPosition(-10000);
-            motorBackRight.setTargetPosition(-10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            while(MRGyro.getIntegratedZValue() < targetDegrees)
-            {
-                telemetry.addData("correcting", "yeah");
-                telemetry.update();
-            }
-
-        }
-        else
-        {
-            //LEFT
-
-            motorFrontLeft.setTargetPosition(-10000);
-            motorBackLeft.setTargetPosition(-10000);
-            motorFrontRight.setTargetPosition(-10000);
-            motorBackRight.setTargetPosition(-10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while(MRGyro.getIntegratedZValue() < targetDegrees)
-            {
-                telemetry.addData("turning left", "yes");
-                telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
-                telemetry.update();
-            }
-            motorFrontLeft.setPower(0.1);
-            motorBackLeft.setPower(0.1);
-            motorFrontRight.setPower(0.1);
-            motorBackRight.setPower(0.1);
-
-            motorFrontLeft.setTargetPosition(10000);
-            motorBackLeft.setTargetPosition(10000);
-            motorFrontRight.setTargetPosition(10000);
-            motorBackRight.setTargetPosition(10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            while(MRGyro.getIntegratedZValue() > targetDegrees)
-            {
-                telemetry.addData("correcting to the right", "yeah");
-                telemetry.update();
-            }
-        }
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackRight.setPower(0);
-    }
-
-
-
 
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
@@ -380,6 +111,8 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
         webcam = hardwareMap.get(WebcamName.class, "webcam");
 
+        h.init(hardwareMap);
+
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
@@ -393,8 +126,8 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
         //Calibrate gyro
 
-        MRGyro.calibrate();
-        while(MRGyro.isCalibrating())
+        h.MRGyro.calibrate();
+        while(h.MRGyro.isCalibrating())
         {
             telemetry.update();
             telemetry.addData("Gyro:", "calibrating");
@@ -411,6 +144,23 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
         waitForStart();
         telemetry.update();
+        h.motorLift.setTargetPosition(9600);
+        h.motorLift.setPower(1);
+
+        try{
+            Thread.sleep(6000);
+        }catch(Exception e){}
+
+
+        h.strafe(false,2,0.5);
+
+        h.motorLift.setTargetPosition(0);
+
+        h.strafe(true,2,.5);
+
+        h.drive(true,15,1);
+
+
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
@@ -446,12 +196,27 @@ public class TensorFlowObjectDetection extends LinearOpMode
                           }
                         }
                         if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                          if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                          if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X)
+                          {
                             telemetry.addData("Gold Mineral Position", "Left");
-                          } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+
+                              h.strafe(true, 16, .5);
+
+                              h.drive(true,12,1);
+
+                          } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X)
+                          {
                             telemetry.addData("Gold Mineral Position", "Right");
+
+                            h.strafe(false, 16, .5);
+
+                            h.drive(true,12,1);
+
                           } else {
                             telemetry.addData("Gold Mineral Position", "Center");
+
+                            h.drive(true,12,1);
+
                           }
                         }
                       }
@@ -464,6 +229,10 @@ public class TensorFlowObjectDetection extends LinearOpMode
         if (tfod != null) {
             tfod.shutdown();
         }
+        //END OF SAMPLING
+
+
+
     }
 
     /**

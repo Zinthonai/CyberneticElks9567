@@ -493,22 +493,22 @@ public class RoverRuckusAutonomous extends LinearOpMode
         waitForStart();
 ////////////////AUTONOMOUS////////////////
 
-        h.motorLift.setTargetPosition(9500);
+        h.motorLift.setTargetPosition(9600);
         h.motorLift.setPower(1);
 
-        Thread.sleep(4000);
+        Thread.sleep(6000);
+
+        strafe(false,2,0.5);
 
         h.motorLift.setTargetPosition(0);
-/*
-        strafe(false,2,0.5);
 
         drive(true,15,1);
 
         strafe(true,30,.5);
 
         turn(45);
-*/
 
+    /*
        turn(45);
 
         drive(true, 2, 1);
@@ -532,6 +532,7 @@ public class RoverRuckusAutonomous extends LinearOpMode
         turn(325);
 
         drive(true, 75, 1);
+        */
 
         //h.motorArm.setTargetPosition(0);
 
