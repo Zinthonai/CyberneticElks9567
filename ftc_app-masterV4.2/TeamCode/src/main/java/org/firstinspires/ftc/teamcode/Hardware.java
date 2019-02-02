@@ -103,11 +103,6 @@ public class Hardware extends LinearOpMode
             motorFrontRight.setTargetPosition(distanceEncodeVal);
             motorBackLeft.setTargetPosition(distanceEncodeVal);
             motorBackRight.setTargetPosition(distanceEncodeVal);
-
-            motorFrontLeft.setPower(-power);
-            motorFrontRight.setPower(power);
-            motorBackLeft.setPower(-power);
-            motorBackRight.setPower(power);
         }
         else
         {
@@ -115,12 +110,12 @@ public class Hardware extends LinearOpMode
             motorFrontRight.setTargetPosition(-distanceEncodeVal);
             motorBackLeft.setTargetPosition(-distanceEncodeVal);
             motorBackRight.setTargetPosition(-distanceEncodeVal);
-
-            motorFrontLeft.setPower(power);
-            motorFrontRight.setPower(-power);
-            motorBackLeft.setPower(power);
-            motorBackRight.setPower(-power);
         }
+
+        motorFrontLeft.setPower(power);
+        motorFrontRight.setPower(power);
+        motorBackLeft.setPower(power);
+        motorBackRight.setPower(power);
 
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -134,11 +129,17 @@ public class Hardware extends LinearOpMode
             telemetry.update();
         }
         */
+
+        telemetry.addData("Running", "...");
+        telemetry.update();
+
         try{
             Thread.sleep(driveTime);
 
         }catch(Exception e){}
 
+        telemetry.addData("Finished", "");
+        telemetry.update();
 
 
 
@@ -180,11 +181,6 @@ public class Hardware extends LinearOpMode
             motorFrontRight.setTargetPosition(-distanceEncodeVal);
             motorBackLeft.setTargetPosition(distanceEncodeVal);
             motorBackRight.setTargetPosition(distanceEncodeVal);
-
-            motorFrontLeft.setPower(power);
-            motorFrontRight.setPower(power);
-            motorBackLeft.setPower(power);
-            motorBackRight.setPower(power);
         }
         else
         {
@@ -192,21 +188,17 @@ public class Hardware extends LinearOpMode
             motorFrontRight.setTargetPosition(distanceEncodeVal);
             motorBackLeft.setTargetPosition(-distanceEncodeVal);
             motorBackRight.setTargetPosition(-distanceEncodeVal);
-
-            motorFrontLeft.setPower(power);
-            motorFrontRight.setPower(power);
-            motorBackLeft.setPower(power);
-            motorBackRight.setPower(power);
         }
+
+        motorFrontLeft.setPower(power);
+        motorFrontRight.setPower(power);
+        motorBackLeft.setPower(power);
+        motorBackRight.setPower(power);
 
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-
-
 
         /*
         while((motorFrontLeft.getCurrentPosition() > distanceEncodeVal) && opModeIsActive())
@@ -219,8 +211,6 @@ public class Hardware extends LinearOpMode
             Thread.sleep(driveTime);
 
         }catch(Exception e){}
-
-
 
 
         motorFrontLeft.setTargetPosition(0);
@@ -249,52 +239,45 @@ public class Hardware extends LinearOpMode
         motorBackLeft.setPower(joystickY - joystickX + rotation);
     }
 
-    public void turn(int targetDegrees)
+    public void turn(int targetDegrees, double power, double correctionPower)
     {
-        motorFrontLeft.setPower(0.5);
-        motorBackLeft.setPower(0.5);
-        motorFrontRight.setPower(0.5);
-        motorBackRight.setPower(0.5);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackRight.setPower(0);
 
 //Right is all positive
 //Left is all negative
 //Straight is left positive. Right negative.
         if(targetDegrees == 0)
         {
+            //Tell robot to correct to straight forward
+
             if(MRGyro.getIntegratedZValue() > 0)
             {
-                //Left of zero
-                motorFrontLeft.setTargetPosition(-10000);
-                motorBackLeft.setTargetPosition(-10000);
-                motorFrontRight.setTargetPosition(10000);
-                motorBackRight.setTargetPosition(10000);
+                //If the gyro reads back left from zero
 
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorFrontLeft.setPower(-power);
+                motorBackLeft.setPower(-power);
+                motorFrontRight.setPower(power);
+                motorBackRight.setPower(power);
 
                 while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
                 {
                     telemetry.addData("Target Value: ", targetDegrees);
-                    telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
+                    telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
-
                 }
-                motorFrontLeft.setPower(0.1);
-                motorBackLeft.setPower(0.1);
-                motorFrontRight.setPower(0.1);
-                motorBackRight.setPower(0.1);
 
-                motorFrontLeft.setTargetPosition(10000);
-                motorBackLeft.setTargetPosition(10000);
-                motorFrontRight.setTargetPosition(-10000);
-                motorBackRight.setTargetPosition(-10000);
-
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorFrontLeft.setPower(correctionPower);
+                motorBackLeft.setPower(correctionPower);
+                motorFrontRight.setPower(-correctionPower);
+                motorBackRight.setPower(-correctionPower);
 
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
@@ -302,41 +285,26 @@ public class Hardware extends LinearOpMode
                     telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
-
             }
             if(MRGyro.getIntegratedZValue() < 0)
             {
-                //Right of zero
+                //If the gyro reads back right from zero
 
-                motorFrontLeft.setTargetPosition(10000);
-                motorBackLeft.setTargetPosition(10000);
-                motorFrontRight.setTargetPosition(-10000);
-                motorBackRight.setTargetPosition(-10000);
+                motorFrontLeft.setPower(power);
+                motorBackLeft.setPower(power);
+                motorFrontRight.setPower(-power);
+                motorBackRight.setPower(-power);
 
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
                 {
                     telemetry.addData("Target Value: ", targetDegrees);
-                    telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
+                    telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
                 }
-                motorFrontLeft.setPower(0.1);
-                motorBackLeft.setPower(0.1);
-                motorFrontRight.setPower(0.1);
-                motorBackRight.setPower(0.1);
-
-                motorFrontLeft.setTargetPosition(-10000);
-                motorBackLeft.setTargetPosition(-10000);
-                motorFrontRight.setTargetPosition(10000);
-                motorBackRight.setTargetPosition(10000);
-
-                motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorFrontLeft.setPower(-correctionPower);
+                motorBackLeft.setPower(-correctionPower);
+                motorFrontRight.setPower(correctionPower);
+                motorBackRight.setPower(correctionPower);
 
                 while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
                 {
@@ -353,80 +321,50 @@ public class Hardware extends LinearOpMode
 
         if(targetDegrees < 0)
         {
-
             //RIGHT
-            motorFrontLeft.setTargetPosition(-10000);
-            motorBackLeft.setTargetPosition(-10000);
-            motorFrontRight.setTargetPosition(10000);
-            motorBackRight.setTargetPosition(10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorFrontLeft.setPower(-power);
+            motorBackLeft.setPower(-power);
+            motorFrontRight.setPower(power);
+            motorBackRight.setPower(power);
 
             while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
             {
-                telemetry.addData("Target: ", targetDegrees);
+                telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
-
             }
-            motorFrontLeft.setPower(0.1);
-            motorBackLeft.setPower(0.1);
-            motorFrontRight.setPower(0.1);
-            motorBackRight.setPower(0.1);
 
-            motorFrontLeft.setTargetPosition(10000);
-            motorBackLeft.setTargetPosition(10000);
-            motorFrontRight.setTargetPosition(-10000);
-            motorBackRight.setTargetPosition(-10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorFrontLeft.setPower(correctionPower);
+            motorBackLeft.setPower(correctionPower);
+            motorFrontRight.setPower(-correctionPower);
+            motorBackRight.setPower(-correctionPower);
 
             while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
             {
-                telemetry.addData("Heading", MRGyro.getIntegratedZValue());
+                telemetry.addData("Target Value: ", targetDegrees);
+                telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
             }
-
         }
         else
         {
             //LEFT
 
-            motorFrontLeft.setTargetPosition(10000);
-            motorBackLeft.setTargetPosition(10000);
-            motorFrontRight.setTargetPosition(-10000);
-            motorBackRight.setTargetPosition(-10000);
+            motorFrontLeft.setPower(-power);
+            motorBackLeft.setPower(-power);
+            motorFrontRight.setPower(power);
+            motorBackRight.setPower(power);
 
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
             {
                 telemetry.addData("Target Value: ", targetDegrees);
-                telemetry.addData("MRgyro", MRGyro.getIntegratedZValue());
+                telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
             }
-            motorFrontLeft.setPower(0.1);
-            motorBackLeft.setPower(0.1);
-            motorFrontRight.setPower(0.1);
-            motorBackRight.setPower(0.1);
-
-            motorFrontLeft.setTargetPosition(-10000);
-            motorBackLeft.setTargetPosition(-10000);
-            motorFrontRight.setTargetPosition(10000);
-            motorBackRight.setTargetPosition(10000);
-
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorFrontLeft.setPower(correctionPower);
+            motorBackLeft.setPower(correctionPower);
+            motorFrontRight.setPower(-correctionPower);
+            motorBackRight.setPower(-correctionPower);
 
             while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
             {

@@ -89,23 +89,23 @@ public class RoverRuckusAutonomous extends LinearOpMode
 
         h.strafe(true,30,.5);
 
-        h.turn(45);
+        h.turn(45, 0.5, 0.5);
 
     /*
     OLD AUTONOMOUS
-        h.turn(45);
+        h.turn(45, 0.5, 0.1);
 
         h.drive(true, 2, 1);
 
-        h.turn(0);
+        h.turn(0, 0.5, 0.1);
 
         h.drive(true, 15, 1);
 
-        h.turn(90);
+        h.turn(90, 0.5, 0.1);
 
         h.drive(true, 35, 1);
 
-        h.turn(315);
+        h.turn(315, 0.5, 0.1);
 
         h.drive(false, 46, 1);
 
@@ -113,16 +113,14 @@ public class RoverRuckusAutonomous extends LinearOpMode
         Thread.sleep(2000);
         h.markerDropServo.setPosition(0.3);
 
-        h.turn(325);
+        h.turn(325, 0.5, 0.1);
 
         h.drive(true, 75, 1);
         */
+
         while(opModeIsActive())
         {
-            telemetry.addData("gyro:", h.MRGyro.getHeading());
-            telemetry.addData("integated z:", h.MRGyro.getIntegratedZValue());
-            telemetry.addData("current degrees:", currentDegrees);
-
+            telemetry.addData("Current Gyro Value:", h.MRGyro.getIntegratedZValue());
             telemetry.update();
         }
     }

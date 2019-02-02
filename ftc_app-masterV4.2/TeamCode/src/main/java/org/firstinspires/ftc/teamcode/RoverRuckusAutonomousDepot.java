@@ -93,30 +93,27 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
 
         h.motorLift.setTargetPosition(0);
 
-        h.turn(45);
+        h.turn(45, 0.5, 0.1);
 
         h.drive(true, 2, 1);
 
-        h.turn(0);
+        h.turn(0, 0.5, 0.1);
 
         h.drive(true, 42, 1);
 
-        h.turn(180);
+        h.turn(180, 0.5, 0.1);
 
         h.markerDropServo.setPosition(0);
         Thread.sleep(2000);
         h.markerDropServo.setPosition(0.3);
 
-        h.turn(135);
+        h.turn(135, 0.5, 0.1);
 
         h.drive(true, 70, 1);
 
         while(opModeIsActive())
         {
-            telemetry.addData("gyro:", h.MRGyro.getHeading());
-            telemetry.addData("integated z:", h.MRGyro.getIntegratedZValue());
-            telemetry.addData("current degrees:", currentDegrees);
-
+            telemetry.addData("Current Gyro Value:", h.MRGyro.getIntegratedZValue());
             telemetry.update();
         }
     }
