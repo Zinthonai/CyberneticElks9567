@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TensorFlowObjectDetection extends LinearOpMode
 {
-    Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
+
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -103,6 +103,8 @@ public class TensorFlowObjectDetection extends LinearOpMode
     @Override
     public void runOpMode()
     {
+        Hardware h = new Hardware();
+
         try {
             h.init(hardwareMap);
         }catch(Exception e)
@@ -131,15 +133,12 @@ public class TensorFlowObjectDetection extends LinearOpMode
             telemetry.addData("Gyro:", "calibrating");
         }
         telemetry.addData("Calibration", "complete");
-        telemetry.update();
-
-
-
-
         telemetry.addData("Initialization ", "complete");
         telemetry.addData("Heading: ", h.MRGyro.getIntegratedZValue());
-        waitForStart();
         telemetry.update();
+
+        waitForStart();
+
 
         //START
 

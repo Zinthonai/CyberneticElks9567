@@ -13,17 +13,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Hardware extends LinearOpMode
 {
-    public DcMotor motorFrontRight = null;
-    public DcMotor motorBackRight = null;
-    public DcMotor motorBackLeft = null;
-    public DcMotor motorFrontLeft = null;
+    public DcMotor motorFrontRight;
+    public DcMotor motorBackRight;
+    public DcMotor motorBackLeft;
+    public DcMotor motorFrontLeft;
 
-    public DcMotor motorArm = null;
-    public DcMotor motorWinch = null;
-    public DcMotor motorLift = null;
-    public DcMotor motorSpinner = null;
+    public DcMotor motorArm;
+    public DcMotor motorWinch;
+    public DcMotor motorLift;
+    public DcMotor motorSpinner;
 
-    public Servo markerDropServo = null;
+    public Servo markerDropServo;
 
     ModernRoboticsI2cGyro MRGyro;
     ModernRoboticsI2cRangeSensor MRRange;
@@ -46,7 +46,7 @@ public class Hardware extends LinearOpMode
     {
         motorFrontRight = aMap.dcMotor.get("motorFrontRight");
         motorBackRight = aMap.dcMotor.get("motorBackRight");
-        motorFrontLeft = aMap.dcMotor.get("motorBackLeft");
+        motorBackLeft = aMap.dcMotor.get("motorBackLeft");
         motorFrontLeft = aMap.dcMotor.get("motorFrontLeft");
         motorArm = aMap.dcMotor.get("motorArm");
         motorWinch = aMap.dcMotor.get("motorWinch");
@@ -58,10 +58,12 @@ public class Hardware extends LinearOpMode
         MRGyro = aMap.get(ModernRoboticsI2cGyro.class, "gyro");
         MRRange = aMap.get(ModernRoboticsI2cRangeSensor.class, "MRRange");
 
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        //motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         motorArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorWinch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -77,8 +79,6 @@ public class Hardware extends LinearOpMode
         motorBackRight.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
-
-
     }
 
 
@@ -233,10 +233,10 @@ public class Hardware extends LinearOpMode
     public void driveOmniDir(double joystickX, double joystickY, double rotation)
     {
         
-        motorFrontRight.setPower(joystickY + joystickX - rotation);
-        motorBackRight.setPower(joystickY + joystickX - rotation);
-        motorFrontLeft.setPower(joystickY - joystickX + rotation);
-        motorBackLeft.setPower(joystickY - joystickX + rotation);
+        motorFrontRight.setPower(joystickY + joystickX/2 + rotation);
+        motorBackRight.setPower(joystickY - joystickX/2 + rotation);
+        motorFrontLeft.setPower(joystickY - joystickX/2 - rotation);
+        motorBackLeft.setPower(joystickY + joystickX/2 - rotation);
     }
 
     public void turn(int targetDegrees, double power, double correctionPower)
@@ -349,7 +349,6 @@ public class Hardware extends LinearOpMode
         else
         {
             //LEFT
-
             motorFrontLeft.setPower(-power);
             motorBackLeft.setPower(-power);
             motorFrontRight.setPower(power);
@@ -377,12 +376,6 @@ public class Hardware extends LinearOpMode
         motorBackLeft.setPower(0);
         motorFrontRight.setPower(0);
         motorBackRight.setPower(0);
-    }
-
-    public Hardware(DcMotor.RunMode enteredMode)
-    {
-
-
     }
 
 }

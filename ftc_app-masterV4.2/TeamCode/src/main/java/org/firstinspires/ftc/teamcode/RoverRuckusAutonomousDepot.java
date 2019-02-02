@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class RoverRuckusAutonomousDepot extends LinearOpMode
 {
-    Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
+
     
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
@@ -62,6 +62,8 @@ public class RoverRuckusAutonomousDepot extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
+        Hardware h = new Hardware();
+
         try{
             h.init(hardwareMap);
         }catch(Exception e)

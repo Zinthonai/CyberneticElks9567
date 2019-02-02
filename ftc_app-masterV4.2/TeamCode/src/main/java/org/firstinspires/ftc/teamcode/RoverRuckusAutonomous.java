@@ -47,7 +47,7 @@ import com.sun.tools.javac.Main;
 
 public class RoverRuckusAutonomous extends LinearOpMode
 {
-    Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
+
 
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
@@ -62,6 +62,8 @@ public class RoverRuckusAutonomous extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
+        Hardware h = new Hardware();
+
         h.init(hardwareMap);
 
         h.MRGyro.calibrate();

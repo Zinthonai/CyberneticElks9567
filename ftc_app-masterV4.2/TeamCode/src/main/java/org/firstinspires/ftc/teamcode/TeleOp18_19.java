@@ -27,12 +27,15 @@ import java.util.Locale;
 public class TeleOp18_19 extends LinearOpMode
 {
 
-    Hardware h = new Hardware(DcMotor.RunMode.RUN_TO_POSITION);
+
 
     int currentChainPos;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode()
+    {
+
+        Hardware h = new Hardware();
 
         try {
             h.init(hardwareMap);
@@ -51,33 +54,30 @@ public class TeleOp18_19 extends LinearOpMode
         telemetry.addData("Calibration", "complete");
         telemetry.update();
 
-
-        telemetry.addData("Initialization", "Complete");
-        telemetry.update();
         waitForStart();
         h.markerDropServo.setPosition(0);
 
-        while (opModeIsActive()) {
-
-            telemetry.update();
-            telemetry.addData("current Arm Position:", currentChainPos);
+        while (opModeIsActive())
+        {
+            telemetry.addData("current Arm Position:", h.motorArm.getCurrentPosition());
             telemetry.addData("Winch Position:", h.motorWinch.getCurrentPosition());
             telemetry.addData("Lift Position:", h.motorLift.getCurrentPosition());
             telemetry.addData("Gyro: ", h.MRGyro.getIntegratedZValue());
             telemetry.update();
 
 ////////DRIVING
-            
-            
+
             h.driveOmniDir(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
             //TANK DRIVE TEST
-            /*
+
+/*
             h.motorFrontRight.setPower(gamepad1.right_stick_y);
             h.motorFrontLeft.setPower(gamepad1.left_stick_y);
             h.motorBackRight.setPower(gamepad1.right_stick_y);
             h.motorBackLeft.setPower(gamepad1.right_stick_y);
-            */
+*/
+
 ////////WINCH
             if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 6300)
             {
@@ -99,12 +99,11 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-            /*
             if (!gamepad1.dpad_up && !gamepad1.dpad_down)
             {
-                motorWinch.setPower(0);
+                h.motorWinch.setPower(0);
             }
-            */
+
 ////////SPINNER
             if (gamepad1.a) {
                 h.motorSpinner.setPower(-1);
@@ -116,13 +115,12 @@ public class TeleOp18_19 extends LinearOpMode
                 h.motorSpinner.setPower(0);
             }
 
-
 ////////ARM
             if (gamepad1.right_trigger > 0 && gamepad1.left_trigger == 0) {
 
                 //LIFT ARM
 
-                h.motorArm.setPower(0.3);
+                h.motorArm.setPower(0.5);
                 h.motorArm.setTargetPosition(4200);
 
                 while (gamepad1.right_trigger > 0 && opModeIsActive()) {
