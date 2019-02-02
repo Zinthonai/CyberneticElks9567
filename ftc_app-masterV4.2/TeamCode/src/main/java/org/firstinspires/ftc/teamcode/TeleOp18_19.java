@@ -71,15 +71,14 @@ public class TeleOp18_19 extends LinearOpMode
             
             h.driveOmniDir(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-///////TANK DRIVE TEST
+            //TANK DRIVE TEST
             /*
             h.motorFrontRight.setPower(gamepad1.right_stick_y);
             h.motorFrontLeft.setPower(gamepad1.left_stick_y);
             h.motorBackRight.setPower(gamepad1.right_stick_y);
             h.motorBackLeft.setPower(gamepad1.right_stick_y);
             */
-
-            ////////WINCH
+////////WINCH
             if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 6300)
             {
                 h.motorWinch.setPower(1);
@@ -106,7 +105,7 @@ public class TeleOp18_19 extends LinearOpMode
                 motorWinch.setPower(0);
             }
             */
-            ////////SPINNER
+////////SPINNER
             if (gamepad1.a) {
                 h.motorSpinner.setPower(-1);
             }
