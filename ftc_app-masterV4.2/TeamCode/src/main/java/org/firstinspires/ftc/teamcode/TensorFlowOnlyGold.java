@@ -215,14 +215,17 @@ public class TensorFlowOnlyGold extends LinearOpMode
             }
         }
 
+        telemetry.addData("Sampling Position:", positionFromLeft);
+        telemetry.update();
+        
         if (tfod != null) {
             tfod.shutdown();
         }
         try{
             Thread.sleep(5000);
         }catch(Exception e){}
-
-
+        
+        
         if(positionFromLeft == 1)
         {
             h.strafe(true,16,0.5);
@@ -248,13 +251,22 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         }
         //END OF SAMPLING
+        
+        //Drive to wall
+        
+        //drive to depot
+        
+        //drop off marker
+        
+        //drive to crater\
 
 
 
 
-
-
-
+        while (opModeIsActive())
+        {
+            //Should keep auto running
+        }
     }
 
     /**
