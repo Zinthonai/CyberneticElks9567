@@ -29,24 +29,19 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.util.List;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.List;
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -58,10 +53,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "TensorFlow Object Detection", group = "Linear OpMode")
+@Autonomous(name = "TensorFlow Only Gold", group = "Linear OpMode")
 
-public class TensorFlowObjectDetection extends LinearOpMode
+public class TensorFlowOnlyGold extends LinearOpMode
 {
+
+    int positionFromLeft;
+
+    int i;
 
     private String Date;
     private ElapsedTime runtime = new ElapsedTime();
@@ -141,8 +140,8 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
 
         //START
-        /*
-        h.motorLift.setTargetPosition(9600);
+
+        h.motorLift.setTargetPosition(10000);
         h.motorLift.setPower(1);
 
         try{
@@ -150,15 +149,11 @@ public class TensorFlowObjectDetection extends LinearOpMode
         }catch(Exception e){}
 
 
-        h.strafe(false,2,0.5);
+        h.strafe(false,8,0.5);
 
         h.motorLift.setTargetPosition(0);
 
-        h.strafe(true,2,0.5);
-        */
-        h.drive(true,10,0.5);
-
-
+        h.strafe(true,8,0.5);
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
@@ -168,67 +163,53 @@ public class TensorFlowObjectDetection extends LinearOpMode
 
             while (opModeIsActive())
             {
+                if(i > 100){
+                    break;
+                }
+                for(i = 0; i < 101; i++) {
 
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      if (updatedRecognitions.size() == 3) {
-                        int goldMineralX = -1;
-                        int silverMineral1X = -1;
-                        int silverMineral2X = -1;
+                    if (tfod != null) {
+                        // getUpdatedRecognitions() will return null if no new information is available since
+                        // the last time that call was made.
+                        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                        if (updatedRecognitions != null) {
+                            telemetry.addData("# Object Detected", updatedRecognitions.size());
+                            int goldMineralX = -1;
+                            int silverMineral1X = -1;
+                            int silverMineral2X = -1;
 
 
-                        for (Recognition recognition : updatedRecognitions) {
+                            for (Recognition recognition : updatedRecognitions) {
 
-                          if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            telemetry.addData("GoldMineralX", recognition.getLeft());
-                            goldMineralX = (int) recognition.getLeft();
-                          } else if (silverMineral1X == -1) {
-                            silverMineral1X = (int) recognition.getLeft();
-                          } else {
-                            silverMineral2X = (int) recognition.getLeft();
+                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                    telemetry.addData("GoldMineralX", recognition.getLeft());
+                                    goldMineralX = (int) recognition.getLeft();
+                                } else if (silverMineral1X == -1) {
+                                    silverMineral1X = (int) recognition.getLeft();
+                                } else {
+                                    silverMineral2X = (int) recognition.getLeft();
 
-                          }
+                                }
+                            }
+
+
+                            if (goldMineralX < 200) {
+                                telemetry.addData("Gold:", "Left");
+                                telemetry.update();
+
+                                positionFromLeft = 1;
+                            } else if (goldMineralX < 400 && goldMineralX > 200) {
+                                telemetry.addData("Gold:", "Middle");
+                                telemetry.update();
+
+                                positionFromLeft = 2;
+                            } else {
+                                telemetry.addData("Gold:", "Right");
+                                telemetry.update();
+
+                                positionFromLeft = 3;
+                            }
                         }
-                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                          if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X)
-                          {
-                           telemetry.addData("Gold Mineral Position", "Left");
-
-                              try{
-                                  Thread.sleep(6000);
-                              }catch(Exception e){}
-
-                            h.strafe(true, 16, 0.5);
-                            h.drive(true,12,1);
-
-                          } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X)
-                          {
-
-                            telemetry.addData("Gold Mineral Position", "Right");
-                              try{
-                                  Thread.sleep(6000);
-                              }catch(Exception e){}
-
-                            h.strafe(false, 16, 0.5);
-                            h.drive(true,12,1);
-
-
-                          } else {
-
-                            telemetry.addData("Gold Mineral Position", "Center");
-                              try{
-                                  Thread.sleep(6000);
-                              }catch(Exception e){}
-                            h.drive(true,12,1);
-
-                          }
-                        }
-                      }
-                      telemetry.update();
                     }
                 }
             }
@@ -237,7 +218,31 @@ public class TensorFlowObjectDetection extends LinearOpMode
         if (tfod != null) {
             tfod.shutdown();
         }
+        try{
+            Thread.sleep(5000);
+        }catch(Exception e){}
+
+
+        if(positionFromLeft == 1)
+        {
+            h.strafe(true,16,.3);
+            h.drive(true,12,.5);
+        }
+
+        if(positionFromLeft == 2)
+        {
+            h.drive(true,12,.5);
+        }
+
+        if(positionFromLeft == 3)
+        {
+        h.strafe(false,16,.3);
+        h.drive(true,12,.3);
+        }
+
         //END OF SAMPLING
+
+
 
 
 

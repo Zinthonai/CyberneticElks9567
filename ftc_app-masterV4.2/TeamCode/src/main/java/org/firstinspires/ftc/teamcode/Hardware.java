@@ -66,14 +66,28 @@ public class Hardware extends LinearOpMode
         //motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         motorArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorArm.setDirection(DcMotorSimple.Direction.FORWARD);
+
         motorWinch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorWinch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         motorSpinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+
+
+
 
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         motorFrontRight.setPower(0);
         motorBackRight.setPower(0);
@@ -130,16 +144,16 @@ public class Hardware extends LinearOpMode
         }
         */
 
-        telemetry.addData("Running", "...");
-        telemetry.update();
+        //telemetry.addData("Running", "...");
+        //telemetry.update();
 
         try{
             Thread.sleep(driveTime);
 
         }catch(Exception e){}
 
-        telemetry.addData("Finished", "");
-        telemetry.update();
+        //telemetry.addData("Finished", ".");
+        //telemetry.update();
 
 
 
@@ -178,16 +192,16 @@ public class Hardware extends LinearOpMode
         if(left)
         {
             motorFrontLeft.setTargetPosition(-distanceEncodeVal);
-            motorFrontRight.setTargetPosition(-distanceEncodeVal);
+            motorFrontRight.setTargetPosition(distanceEncodeVal);
             motorBackLeft.setTargetPosition(distanceEncodeVal);
-            motorBackRight.setTargetPosition(distanceEncodeVal);
+            motorBackRight.setTargetPosition(-distanceEncodeVal);
         }
         else
         {
             motorFrontLeft.setTargetPosition(distanceEncodeVal);
-            motorFrontRight.setTargetPosition(distanceEncodeVal);
+            motorFrontRight.setTargetPosition(-distanceEncodeVal);
             motorBackLeft.setTargetPosition(-distanceEncodeVal);
-            motorBackRight.setTargetPosition(-distanceEncodeVal);
+            motorBackRight.setTargetPosition(distanceEncodeVal);
         }
 
         motorFrontLeft.setPower(power);

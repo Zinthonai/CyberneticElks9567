@@ -55,11 +55,10 @@ public class TeleOp18_19 extends LinearOpMode
         telemetry.update();
 
         waitForStart();
-        h.markerDropServo.setPosition(0);
 
         while (opModeIsActive())
         {
-            telemetry.addData("current Arm Position:", h.motorArm.getCurrentPosition());
+            telemetry.addData("Current Arm Position:", h.motorArm.getCurrentPosition());
             telemetry.addData("Winch Position:", h.motorWinch.getCurrentPosition());
             telemetry.addData("Lift Position:", h.motorLift.getCurrentPosition());
             telemetry.addData("Gyro: ", h.MRGyro.getIntegratedZValue());
@@ -79,11 +78,11 @@ public class TeleOp18_19 extends LinearOpMode
 */
 
 ////////WINCH
-            if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 6300)
+            if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 3250)
             {
                 h.motorWinch.setPower(1);
-                h.motorWinch.setTargetPosition(6300);
-                while(gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 6300 && opModeIsActive())
+                h.motorWinch.setTargetPosition(3250);
+                while(gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 3250 && opModeIsActive())
                 {
 
                 }
@@ -121,7 +120,7 @@ public class TeleOp18_19 extends LinearOpMode
                 //LIFT ARM
 
                 h.motorArm.setPower(0.5);
-                h.motorArm.setTargetPosition(4200);
+                h.motorArm.setTargetPosition(10000);
 
                 while (gamepad1.right_trigger > 0 && opModeIsActive()) {
                 }
@@ -131,7 +130,7 @@ public class TeleOp18_19 extends LinearOpMode
 
                 //DROP ARM
 
-                h.motorArm.setPower(0.3);
+                h.motorArm.setPower(0.5);
                 h.motorArm.setTargetPosition(0);
 
                 while (gamepad1.left_trigger > 0 && opModeIsActive()) {
