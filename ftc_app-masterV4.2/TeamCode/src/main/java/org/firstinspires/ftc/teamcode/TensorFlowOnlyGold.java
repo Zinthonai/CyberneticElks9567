@@ -141,7 +141,7 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         //START
 
-        h.motorLift.setTargetPosition(10000);
+        h.motorLift.setTargetPosition(9700);
         h.motorLift.setPower(1);
 
         try{
@@ -163,11 +163,6 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
             while (opModeIsActive())
             {
-                if(i > 100){
-                    break;
-                }
-                for(i = 0; i < 101; i++) {
-
                     if (tfod != null) {
                         // getUpdatedRecognitions() will return null if no new information is available since
                         // the last time that call was made.
@@ -210,7 +205,12 @@ public class TensorFlowOnlyGold extends LinearOpMode
                                 positionFromLeft = 3;
                             }
                         }
-                    }
+
+                }
+                i++;
+                if(i > 100){
+                    break;
+                    //End while loop
                 }
             }
         }
@@ -225,22 +225,31 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         if(positionFromLeft == 1)
         {
-            h.strafe(true,16,.3);
-            h.drive(true,12,.5);
+            h.strafe(true,16,0.5);
+            h.drive(true,12,0.5);
+
+            h.drive(false, 12, 0.5);
+            h.strafe(false,16,0.5);
         }
 
         if(positionFromLeft == 2)
         {
-            h.drive(true,12,.5);
+            h.drive(true,12,0.5);
+            h.drive(false, 12, 0.5);
         }
 
         if(positionFromLeft == 3)
         {
-        h.strafe(false,16,.3);
-        h.drive(true,12,.3);
-        }
+            h.strafe(false,16,0.5);
+            h.drive(true,12,0.5);
 
+            h.drive(false, 12, 0.5);
+            h.strafe(true,16,0.5);
+
+        }
         //END OF SAMPLING
+
+
 
 
 
