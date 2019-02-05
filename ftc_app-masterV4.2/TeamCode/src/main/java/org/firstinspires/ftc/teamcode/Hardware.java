@@ -255,15 +255,13 @@ public class Hardware extends LinearOpMode
 
     public void turn(int targetDegrees, double power, double correctionPower)
     {
+
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackRight.setPower(0);
+
 
 //Right is all positive
 //Left is all negative
@@ -281,11 +279,17 @@ public class Hardware extends LinearOpMode
                 motorFrontRight.setPower(power);
                 motorBackRight.setPower(power);
 
-                while(MRGyro.getIntegratedZValue() > targetDegrees && opModeIsActive())
+                while(MRGyro.getIntegratedZValue() > targetDegrees  && opModeIsActive())
                 {
+
                     telemetry.addData("Target Value: ", targetDegrees);
                     telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
+
+                    try {
+                        Thread.sleep(200);
+                    }catch(Exception e){}
+                    idle();
                 }
 
                 motorFrontLeft.setPower(correctionPower);
@@ -314,6 +318,11 @@ public class Hardware extends LinearOpMode
                     telemetry.addData("Target Value: ", targetDegrees);
                     telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
+
+                    try {
+                        Thread.sleep(200);
+                    }catch(Exception e){}
+                    idle();
                 }
                 motorFrontLeft.setPower(-correctionPower);
                 motorBackLeft.setPower(-correctionPower);
@@ -346,6 +355,11 @@ public class Hardware extends LinearOpMode
                 telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
+
+                try {
+                    Thread.sleep(200);
+                }catch(Exception e){}
+                idle();
             }
 
             motorFrontLeft.setPower(correctionPower);
@@ -362,17 +376,28 @@ public class Hardware extends LinearOpMode
         }
         else
         {
+
             //LEFT
             motorFrontLeft.setPower(-power);
             motorBackLeft.setPower(-power);
             motorFrontRight.setPower(power);
             motorBackRight.setPower(power);
 
-            while(MRGyro.getIntegratedZValue() < targetDegrees && opModeIsActive())
+            try {
+                Thread.sleep(2000);
+            }catch(Exception e){}
+            idle();
+
+            while(MRGyro.getIntegratedZValue() < targetDegrees)
             {
                 telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
+
+                try {
+                    Thread.sleep(20000);
+                }catch(Exception e){}
+                idle();
             }
             motorFrontLeft.setPower(correctionPower);
             motorBackLeft.setPower(correctionPower);
@@ -386,6 +411,7 @@ public class Hardware extends LinearOpMode
                 telemetry.update();
             }
         }
+
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
         motorFrontRight.setPower(0);

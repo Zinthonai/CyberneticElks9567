@@ -141,6 +141,8 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         //START
 
+        /*
+
         h.motorLift.setTargetPosition(9700);
         h.motorLift.setPower(1);
 
@@ -154,6 +156,8 @@ public class TensorFlowOnlyGold extends LinearOpMode
         h.motorLift.setTargetPosition(0);
 
         h.strafe(true,8,0.5);
+
+        */
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
@@ -208,7 +212,9 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
                 }
                 i++;
-                if(i > 100){
+                idle();
+
+                if(i > 100000){
                     break;
                     //End while loop
                 }
@@ -221,18 +227,16 @@ public class TensorFlowOnlyGold extends LinearOpMode
         if (tfod != null) {
             tfod.shutdown();
         }
-        try{
-            Thread.sleep(5000);
-        }catch(Exception e){}
-        
+
+        h.drive(true, 12, 0.5);
         
         if(positionFromLeft == 1)
         {
-            h.strafe(true,16,0.5);
-            h.drive(true,12,0.5);
+            h.turn(-40, 0.5, 0.1);
+            h.drive(true, 24, 0.5);
 
-            h.drive(false, 12, 0.5);
-            h.strafe(false,16,0.5);
+            h.drive(false, 24, 0.5);
+            h.turn(0, 0.5, 0.1);
         }
 
         if(positionFromLeft == 2)
@@ -243,11 +247,11 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         if(positionFromLeft == 3)
         {
-            h.strafe(false,16,0.5);
-            h.drive(true,12,0.5);
+            h.turn(40, 0.5, 0.1);
+            h.drive(true, 24, 0.5);
 
-            h.drive(false, 12, 0.5);
-            h.strafe(true,16,0.5);
+            h.drive(false, 24, 0.5);
+            h.turn(0, 0.5, 0.1);
 
         }
         //END OF SAMPLING
