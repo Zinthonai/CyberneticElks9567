@@ -105,7 +105,8 @@ public class TensorFlowOnlyGold extends LinearOpMode
         Hardware h = new Hardware();
 
         try {
-            h.init(hardwareMap);
+            h.init(hardwareMap, telemetry);
+
         }catch(Exception e)
         {
             telemetry.addData("Something failed to initialize", ":");

@@ -64,7 +64,7 @@ public class RoverRuckusAutonomous extends LinearOpMode
     {
         Hardware h = new Hardware();
 
-        h.init(hardwareMap);
+        h.init(hardwareMap, telemetry);
 
         h.MRGyro.calibrate();
         while(h.MRGyro.isCalibrating() && opModeIsActive())

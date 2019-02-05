@@ -38,7 +38,7 @@ public class TeleOp18_19 extends LinearOpMode
         Hardware h = new Hardware();
 
         try {
-            h.init(hardwareMap);
+            h.init(hardwareMap, telemetry);
         } catch (Exception e) {
             telemetry.addData("Init Error:", "Something failed to initialize");
             e.printStackTrace();
