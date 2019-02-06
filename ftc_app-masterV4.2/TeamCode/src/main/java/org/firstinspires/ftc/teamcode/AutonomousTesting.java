@@ -58,7 +58,7 @@ public class AutonomousTesting extends LinearOpMode
     {
         Hardware h = new Hardware();
 
-        h.init(hardwareMap);
+        h.init(hardwareMap, telemetry);
 
         h.MRGyro.calibrate();
         while(h.MRGyro.isCalibrating() && opModeIsActive())
@@ -72,7 +72,7 @@ public class AutonomousTesting extends LinearOpMode
         waitForStart();
 ////////////////AUTONOMOUS////////////////
 
-        h.turn(0, 0.5, 0.5);
+        h.turn(15, 0.5, 0.5);
 
 
         while(opModeIsActive())

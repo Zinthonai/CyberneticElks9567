@@ -291,6 +291,9 @@ public class Hardware extends LinearOpMode
                     telemetry.addData("Target Value: ", targetDegrees);
                     telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
+                    try {
+                        Thread.sleep(20);
+                    }catch(Exception e){}
                     idle();
                 }
             }
@@ -324,6 +327,9 @@ public class Hardware extends LinearOpMode
                     telemetry.addData("Target Value: ", targetDegrees);
                     telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                     telemetry.update();
+                    try {
+                        Thread.sleep(20);
+                    }catch(Exception e){}
                     idle();
                 }
             }
@@ -332,16 +338,16 @@ public class Hardware extends LinearOpMode
             motorFrontRight.setPower(0);
             motorBackRight.setPower(0);
         }
-
-        if(targetDegrees < 0)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        if(targetDegrees > 0)
         {
-            //RIGHT
+            //TURNING LEFT
             motorFrontLeft.setPower(-power);
             motorBackLeft.setPower(-power);
             motorFrontRight.setPower(power);
             motorBackRight.setPower(power);
 
-            while(MRGyro.getIntegratedZValue() > targetDegrees)
+            while(MRGyro.getIntegratedZValue() < targetDegrees)
             {
                 telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
@@ -358,24 +364,27 @@ public class Hardware extends LinearOpMode
             motorFrontRight.setPower(-correctionPower);
             motorBackRight.setPower(-correctionPower);
 
-            while(MRGyro.getIntegratedZValue() < targetDegrees)
+            while(MRGyro.getIntegratedZValue() > targetDegrees)
             {
                 telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
+                try {
+                    Thread.sleep(20);
+                }catch(Exception e){}
                 idle();
             }
         }
         else
         {
 
-            //LEFT
-            motorFrontLeft.setPower(-power);
-            motorBackLeft.setPower(-power);
-            motorFrontRight.setPower(power);
-            motorBackRight.setPower(power);
+            //TURNING RIGHT
+            motorFrontLeft.setPower(power);
+            motorBackLeft.setPower(power);
+            motorFrontRight.setPower(-power);
+            motorBackRight.setPower(-power);
 
-            while(MRGyro.getIntegratedZValue() < targetDegrees)
+            while(MRGyro.getIntegratedZValue() > targetDegrees)
             {
                 telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
@@ -386,16 +395,19 @@ public class Hardware extends LinearOpMode
                 }catch(Exception e){}
                 idle();
             }
-            motorFrontLeft.setPower(correctionPower);
-            motorBackLeft.setPower(correctionPower);
-            motorFrontRight.setPower(-correctionPower);
-            motorBackRight.setPower(-correctionPower);
+            motorFrontLeft.setPower(-correctionPower);
+            motorBackLeft.setPower(-correctionPower);
+            motorFrontRight.setPower(correctionPower);
+            motorBackRight.setPower(correctionPower);
 
-            while(MRGyro.getIntegratedZValue() > targetDegrees)
+            while(MRGyro.getIntegratedZValue() < targetDegrees)
             {
                 telemetry.addData("Target Value: ", targetDegrees);
                 telemetry.addData("Current Value: ", MRGyro.getIntegratedZValue());
                 telemetry.update();
+                try {
+                    Thread.sleep(20);
+                }catch(Exception e){}
                 idle();
             }
         }
