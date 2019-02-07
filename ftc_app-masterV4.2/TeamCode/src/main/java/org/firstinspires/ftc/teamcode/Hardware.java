@@ -29,24 +29,26 @@ public class Hardware extends LinearOpMode
     ModernRoboticsI2cGyro MRGyro;
     ModernRoboticsI2cRangeSensor MRRange;
 
-    HardwareMap map;
+    private HardwareMap aMap;
     DcMotor.RunMode initialMode = null;
 
     int driveTime;
 
     public int currentDegrees;
 
-    Telemetry telemetry;
+    private Telemetry telemetry;
 
     @Override
     public void runOpMode()
     {
     }
 
-    public void init(HardwareMap aMap, Telemetry inputTelemetry)
+    public void init(/*HardwareMap aMap, Telemetry inputTelemetry*/Opmode inputOpMode)
     {
-        telemetry = inputTelemetry;
-
+        //telemetry = inputTelemetry;
+        this.aMap = inputOpMode.hardwareMap;
+        this.telemetry = inputOpMode.telemetry;
+        
         motorFrontRight = aMap.dcMotor.get("motorFrontRight");
         motorBackRight = aMap.dcMotor.get("motorBackRight");
         motorBackLeft = aMap.dcMotor.get("motorBackLeft");
