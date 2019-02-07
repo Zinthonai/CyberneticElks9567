@@ -44,14 +44,7 @@ public class TeleOp18_19 extends LinearOpMode
             e.printStackTrace();
         }
 
-
-        h.MRGyro.calibrate();
-        while(h.MRGyro.isCalibrating() && opModeIsActive())
-        {
-            telemetry.update();
-            telemetry.addData("Gyro:", "calibrating");
-        }
-        telemetry.addData("Calibration", "complete");
+        telemetry.addData("Initialization ", "complete");
         telemetry.update();
 
         waitForStart();
@@ -61,7 +54,8 @@ public class TeleOp18_19 extends LinearOpMode
             telemetry.addData("Current Arm Position:", h.motorArm.getCurrentPosition());
             telemetry.addData("Winch Position:", h.motorWinch.getCurrentPosition());
             telemetry.addData("Lift Position:", h.motorLift.getCurrentPosition());
-            telemetry.addData("Gyro: ", h.MRGyro.getIntegratedZValue());
+            //telemetry.addData("Gyro: ", h.MRGyro.getIntegratedZValue());
+            telemetry.addData("bucketFlapServo", h.bucketFlapServo.getPosition());
             telemetry.update();
 
 ////////DRIVING
@@ -119,8 +113,8 @@ public class TeleOp18_19 extends LinearOpMode
 
                 //LIFT ARM
 
-                h.motorArm.setPower(0.5);
-                h.motorArm.setTargetPosition(10000);
+                h.motorArm.setPower(1);
+                h.motorArm.setTargetPosition(10100);
 
                 while (gamepad1.right_trigger > 0 && opModeIsActive()) {
                 }
@@ -130,7 +124,7 @@ public class TeleOp18_19 extends LinearOpMode
 
                 //DROP ARM
 
-                h.motorArm.setPower(0.5);
+                h.motorArm.setPower(0.8);
                 h.motorArm.setTargetPosition(0);
 
                 while (gamepad1.left_trigger > 0 && opModeIsActive()) {
@@ -146,10 +140,10 @@ public class TeleOp18_19 extends LinearOpMode
 ////////ARM END
 
 ////////ACTUATOR
-            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 9400)
+            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 9700)
             {
                 h.motorLift.setPower(1);
-                h.motorLift.setTargetPosition(9400);
+                h.motorLift.setTargetPosition(9700);
             }
             if (gamepad1.dpad_right && h.motorLift.getCurrentPosition() > 0)
             {
@@ -160,6 +154,15 @@ public class TeleOp18_19 extends LinearOpMode
             {
                 h.motorLift.setPower(0);
             }
+///////////FLAP SERVO
+            if(gamepad1.y)
+            {
+                //h.markerFlapServo.setPosition(.5);
+
+            }
+            h.bucketFlapServo.setPosition(gamepad2.right_stick_y);
+
+
         }
     }
 }

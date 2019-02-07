@@ -23,12 +23,13 @@ public class Hardware extends LinearOpMode
     public DcMotor motorLift;
     public DcMotor motorSpinner;
 
-    public Servo markerDropServo;
+    Servo markerDropServo;
+    Servo bucketFlapServo;
 
     ModernRoboticsI2cGyro MRGyro;
     ModernRoboticsI2cRangeSensor MRRange;
 
-    HardwareMap map = null;
+    HardwareMap map;
     DcMotor.RunMode initialMode = null;
 
     int driveTime;
@@ -56,6 +57,7 @@ public class Hardware extends LinearOpMode
         motorSpinner = aMap.dcMotor.get("motorSpinner");
 
         markerDropServo = aMap.servo.get("markerDropServo");
+        bucketFlapServo = aMap.servo.get("bucketFlapServo");
 
         MRGyro = aMap.get(ModernRoboticsI2cGyro.class, "gyro");
         MRRange = aMap.get(ModernRoboticsI2cRangeSensor.class, "MRRange");
