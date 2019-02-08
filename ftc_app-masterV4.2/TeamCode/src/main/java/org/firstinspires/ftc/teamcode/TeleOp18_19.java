@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -26,6 +27,8 @@ import java.util.Locale;
 @TeleOp (name = "TeleOp Rover Ruckus", group = "TeleOp")
 public class TeleOp18_19 extends LinearOpMode
 {
+
+    OpMode opmode;
 
 
 
@@ -94,15 +97,15 @@ public class TeleOp18_19 extends LinearOpMode
             }
             if (!gamepad1.dpad_up && !gamepad1.dpad_down)
             {
-                h.motorWinch.setPower(0);
+                h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
 
 ////////SPINNER
             if (gamepad1.a) {
-                h.motorSpinner.setPower(-1);
+                h.motorSpinner.setPower(-0.5);
             }
             if (gamepad1.b) {
-                h.motorSpinner.setPower(1);
+                h.motorSpinner.setPower(0.3);
             }
             if (gamepad1.x) {
                 h.motorSpinner.setPower(0);
@@ -114,7 +117,7 @@ public class TeleOp18_19 extends LinearOpMode
                 //LIFT ARM
 
                 h.motorArm.setPower(1);
-                h.motorArm.setTargetPosition(10100);
+                h.motorArm.setTargetPosition(10500);
 
                 while (gamepad1.right_trigger > 0 && opModeIsActive()) {
                 }
@@ -140,10 +143,10 @@ public class TeleOp18_19 extends LinearOpMode
 ////////ARM END
 
 ////////ACTUATOR
-            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 9700)
+            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 10100)
             {
                 h.motorLift.setPower(1);
-                h.motorLift.setTargetPosition(9700);
+                h.motorLift.setTargetPosition(10100);
             }
             if (gamepad1.dpad_right && h.motorLift.getCurrentPosition() > 0)
             {
@@ -157,10 +160,13 @@ public class TeleOp18_19 extends LinearOpMode
 ///////////FLAP SERVO
             if(gamepad1.y)
             {
-                //h.markerFlapServo.setPosition(.5);
-
+                h.bucketFlapServo.setPosition(0.45);
             }
-            h.bucketFlapServo.setPosition(gamepad2.right_stick_y);
+            else
+            {
+                h.bucketFlapServo.setPosition(0);
+            }
+
 
 
         }

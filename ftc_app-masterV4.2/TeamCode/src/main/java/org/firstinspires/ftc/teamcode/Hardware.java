@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -43,11 +45,11 @@ public class Hardware extends LinearOpMode
     {
     }
 
-    public void init(/*HardwareMap aMap, Telemetry inputTelemetry*/Opmode inputOpMode)
+    public void init(HardwareMap aMap, Telemetry inputTelemetry)
     {
-        //telemetry = inputTelemetry;
-        this.aMap = inputOpMode.hardwareMap;
-        this.telemetry = inputOpMode.telemetry;
+        telemetry = inputTelemetry;
+        //this.aMap = inputOpMode.hardwareMap;
+        //this.telemetry = inputOpMode.telemetry;
         
         motorFrontRight = aMap.dcMotor.get("motorFrontRight");
         motorBackRight = aMap.dcMotor.get("motorBackRight");

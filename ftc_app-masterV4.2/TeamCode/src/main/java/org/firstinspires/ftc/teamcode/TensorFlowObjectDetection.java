@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -99,7 +100,7 @@ public class TensorFlowObjectDetection extends LinearOpMode
      * Detection engine.
      */
     private TFObjectDetector tfod;
-
+    OpMode opmode;
     @Override
     public void runOpMode()
     {

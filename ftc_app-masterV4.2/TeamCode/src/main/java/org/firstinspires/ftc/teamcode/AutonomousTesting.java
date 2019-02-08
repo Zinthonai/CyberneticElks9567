@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous (name = "Autonomous Testing", group = "Autonomous")
@@ -51,7 +52,7 @@ public class AutonomousTesting extends LinearOpMode
     long start = System.currentTimeMillis();
 
     int driveTime;
-
+    OpMode opmode;
     ////////////////START////////////////
     @Override
     public void runOpMode() throws InterruptedException
