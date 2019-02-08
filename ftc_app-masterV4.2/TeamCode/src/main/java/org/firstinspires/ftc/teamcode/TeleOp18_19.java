@@ -34,6 +34,8 @@ public class TeleOp18_19 extends LinearOpMode
 
     int currentChainPos;
 
+    boolean liftToTop = false;
+
     @Override
     public void runOpMode()
     {
@@ -85,11 +87,11 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 0)
+            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 200)
             {
                 h.motorWinch.setPower(1);
-                h.motorWinch.setTargetPosition(0);
-                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 0 && opModeIsActive())
+                h.motorWinch.setTargetPosition(200);
+                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 200 && opModeIsActive())
                 {
 
                 }
@@ -102,7 +104,7 @@ public class TeleOp18_19 extends LinearOpMode
 
 ////////SPINNER
             if (gamepad1.a) {
-                h.motorSpinner.setPower(-0.5);
+                h.motorSpinner.setPower(-1);
             }
             if (gamepad1.b) {
                 h.motorSpinner.setPower(0.3);
@@ -117,7 +119,7 @@ public class TeleOp18_19 extends LinearOpMode
                 //LIFT ARM
 
                 h.motorArm.setPower(1);
-                h.motorArm.setTargetPosition(10500);
+                h.motorArm.setTargetPosition(10700);
 
                 while (gamepad1.right_trigger > 0 && opModeIsActive()) {
                 }
@@ -148,12 +150,25 @@ public class TeleOp18_19 extends LinearOpMode
                 h.motorLift.setPower(1);
                 h.motorLift.setTargetPosition(10100);
             }
+            if(gamepad1.right_stick_button)
+            {
+                liftToTop = true;
+            }
+            if(liftToTop)
+            {
+                h.motorLift.setPower(1);
+                h.motorLift.setTargetPosition(10100);
+                if(h.motorLift.getCurrentPosition() > 10050)
+                {
+                    liftToTop = false;
+                }
+            }
             if (gamepad1.dpad_right && h.motorLift.getCurrentPosition() > 0)
             {
                 h.motorLift.setPower(1);
                 h.motorLift.setTargetPosition(0);
             }
-            if (!gamepad1.dpad_left && !gamepad1.dpad_right)
+            if (!gamepad1.dpad_left && !gamepad1.dpad_right && !liftToTop)
             {
                 h.motorLift.setPower(0);
             }
