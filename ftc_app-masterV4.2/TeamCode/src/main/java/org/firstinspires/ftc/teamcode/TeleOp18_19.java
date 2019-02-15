@@ -77,6 +77,18 @@ public class TeleOp18_19 extends LinearOpMode
 */
 
 ////////WINCH
+
+            if (gamepad1.right_bumper && h.motorWinch.getCurrentPosition() < 4000)
+            {
+                h.motorWinch.setPower(1);
+                h.motorWinch.setTargetPosition(4000);
+                while(gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 4000 && opModeIsActive())
+                {
+
+                }
+                h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
+            }
+
             if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 3250)
             {
                 h.motorWinch.setPower(1);
@@ -87,11 +99,11 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 200)
+            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 500)
             {
                 h.motorWinch.setPower(1);
-                h.motorWinch.setTargetPosition(200);
-                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 200 && opModeIsActive())
+                h.motorWinch.setTargetPosition(500);
+                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 500 && opModeIsActive())
                 {
 
                 }

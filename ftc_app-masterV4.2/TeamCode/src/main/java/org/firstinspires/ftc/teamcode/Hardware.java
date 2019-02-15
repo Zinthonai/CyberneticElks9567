@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Hardware extends LinearOpMode
@@ -242,10 +241,10 @@ public class Hardware extends LinearOpMode
     public void driveOmniDir(double joystickX, double joystickY, double rotation)
     {
         
-        motorFrontRight.setPower(joystickY + joystickX/2 + rotation);
-        motorBackRight.setPower(joystickY - joystickX/2 + rotation);
-        motorFrontLeft.setPower(joystickY - joystickX/2 - rotation);
-        motorBackLeft.setPower(joystickY + joystickX/2 - rotation);
+        motorFrontRight.setPower(-joystickY - joystickX/2 - rotation);
+        motorBackRight.setPower(-joystickY + joystickX/2 - rotation);
+        motorFrontLeft.setPower(-joystickY + joystickX/2 + rotation);
+        motorBackLeft.setPower(-joystickY - joystickX/2 + rotation);
     }
 
     public void turn(int targetDegrees, double power, double correctionPower)
