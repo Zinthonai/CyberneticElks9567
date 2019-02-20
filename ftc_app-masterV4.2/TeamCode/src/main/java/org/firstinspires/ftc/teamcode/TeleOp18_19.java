@@ -156,6 +156,17 @@ public class TeleOp18_19 extends LinearOpMode
 
 ////////ARM END
 
+////////AUTO ARM
+            if (gamepad1.left_bumper)
+            {
+                //bring winch up to set position
+            }
+            if (gamepad1.right_bumper)
+            {
+                //bring winch down to set position
+            }
+
+
 ////////ACTUATOR
             if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 10100)
             {
@@ -184,6 +195,7 @@ public class TeleOp18_19 extends LinearOpMode
             {
                 h.motorLift.setPower(0);
             }
+
 ///////////FLAP SERVO
             if(gamepad1.y)
             {
