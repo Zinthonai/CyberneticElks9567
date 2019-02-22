@@ -35,6 +35,8 @@ public class TeleOp18_19 extends LinearOpMode
     int currentChainPos;
 
     boolean liftToTop = false;
+    boolean isRaisingArmUp = false;
+    boolean isRaisingArmDown = false;
 
     @Override
     public void runOpMode()
@@ -119,7 +121,7 @@ public class TeleOp18_19 extends LinearOpMode
                 h.motorSpinner.setPower(-1);
             }
             if (gamepad1.b) {
-                h.motorSpinner.setPower(0.3);
+                h.motorSpinner.setPower(0.5);
             }
             if (gamepad1.x) {
                 h.motorSpinner.setPower(0);
@@ -159,11 +161,37 @@ public class TeleOp18_19 extends LinearOpMode
 ////////AUTO ARM
             if (gamepad1.left_bumper)
             {
-                //bring winch up to set position
+                isRaisingArmUp = false;
+                isRaisingArmDown = true;
+
             }
             if (gamepad1.right_bumper)
             {
-                //bring winch down to set position
+                isRaisingArmUp = true;
+                isRaisingArmDown = false;
+
+            }
+            if(isRaisingArmUp)
+            {
+                if(h.motorArm.getCurrentPosition() < 2000)
+                {
+                    h.motorWinch.setTargetPosition(0);
+                    h.motorArm.setTargetPosition(2500);
+                }
+                if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 4000)
+                {
+                    h.motorWinch.setTargetPosition(1000);
+                    h.motorArm.setTargetPosition(4500);
+                }
+                if(h.motorArm.getCurrentPosition() > 4000 && h.motorArm.getCurrentPosition() < 6000)
+                {
+                    //h.motorArm.setTargetPosition();
+                }
+
+            }
+            if(isRaisingArmDown)
+            {
+
             }
 
 
