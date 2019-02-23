@@ -90,7 +90,6 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-
             if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 3250)
             {
                 h.motorWinch.setPower(1);
@@ -101,11 +100,11 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 500)
+            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 1000)
             {
                 h.motorWinch.setPower(1);
-                h.motorWinch.setTargetPosition(500);
-                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 500 && opModeIsActive())
+                h.motorWinch.setTargetPosition(1000);
+                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 1000 && opModeIsActive())
                 {
 
                 }
@@ -118,10 +117,12 @@ public class TeleOp18_19 extends LinearOpMode
 
 ////////SPINNER
             if (gamepad1.a) {
+                //Pull in minerals
                 h.motorSpinner.setPower(-1);
             }
             if (gamepad1.b) {
-                h.motorSpinner.setPower(0.5);
+                //Spit out extra minerals
+                h.motorSpinner.setPower(0.6);
             }
             if (gamepad1.x) {
                 h.motorSpinner.setPower(0);
@@ -131,6 +132,9 @@ public class TeleOp18_19 extends LinearOpMode
             if (gamepad1.right_trigger > 0 && gamepad1.left_trigger == 0) {
 
                 //LIFT ARM
+
+                isRaisingArmUp = false; //Stop automatic raising if manual is tried
+                isRaisingArmDown = false;
 
                 h.motorArm.setPower(1);
                 h.motorArm.setTargetPosition(10700);
@@ -143,7 +147,10 @@ public class TeleOp18_19 extends LinearOpMode
 
                 //DROP ARM
 
-                h.motorArm.setPower(0.8);
+                isRaisingArmUp = false; //Stop automatic raising if manual is tried
+                isRaisingArmDown = false;
+
+                h.motorArm.setPower(1);
                 h.motorArm.setTargetPosition(0);
 
                 while (gamepad1.left_trigger > 0 && opModeIsActive()) {
@@ -163,13 +170,11 @@ public class TeleOp18_19 extends LinearOpMode
             {
                 isRaisingArmUp = false;
                 isRaisingArmDown = true;
-
             }
             if (gamepad1.right_bumper)
             {
                 isRaisingArmUp = true;
                 isRaisingArmDown = false;
-
             }
             if(isRaisingArmUp)
             {
@@ -193,7 +198,7 @@ public class TeleOp18_19 extends LinearOpMode
             {
 
             }
-
+////////AUTO ARM END
 
 ////////ACTUATOR
             if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 10100)
