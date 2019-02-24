@@ -1,47 +1,25 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-
-import com.qualcomm.robotcore.hardware.CRServo;
-
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
-
-import java.util.List;
-import java.util.Locale;
 
 @TeleOp (name = "TeleOp Rover Ruckus", group = "TeleOp")
 public class TeleOp18_19 extends LinearOpMode
 {
-
     OpMode opmode;
 
+    private int currentChainPos;
 
-
-    int currentChainPos;
-
-    boolean liftToTop = false;
-    boolean isRaisingArmUp = false;
-    boolean isRaisingArmDown = false;
+    private boolean liftToTop = false;
+    private boolean isRaisingArmUp = false;
+    private boolean isRaisingArmDown = false;
 
     @Override
     public void runOpMode()
     {
-
         Hardware h = new Hardware();
 
         try {
@@ -80,16 +58,7 @@ public class TeleOp18_19 extends LinearOpMode
 
 ////////WINCH
 
-            if (gamepad1.right_bumper && h.motorWinch.getCurrentPosition() < 4000)
-            {
-                h.motorWinch.setPower(1);
-                h.motorWinch.setTargetPosition(4000);
-                while(gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 4000 && opModeIsActive())
-                {
 
-                }
-                h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
-            }
             if (gamepad1.dpad_up && h.motorWinch.getCurrentPosition() < 3250)
             {
                 h.motorWinch.setPower(1);
@@ -110,7 +79,7 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-            if (!gamepad1.dpad_up && !gamepad1.dpad_down)
+            if ((!gamepad1.dpad_up && !gamepad1.dpad_down) && !isRaisingArmDown && !isRaisingArmUp)
             {
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
@@ -128,7 +97,7 @@ public class TeleOp18_19 extends LinearOpMode
                 h.motorSpinner.setPower(0);
             }
 
-////////ARM
+////////MANUAL ARM
             if (gamepad1.right_trigger > 0 && gamepad1.left_trigger == 0) {
 
                 //LIFT ARM
@@ -157,13 +126,12 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 currentChainPos = h.motorArm.getCurrentPosition();
             }
-            if ((gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0))
+            if ((gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0) && !isRaisingArmDown && !isRaisingArmUp)
             {
-                h.motorArm.setPower(0);
                 h.motorArm.setTargetPosition(currentChainPos);
             }
 
-////////ARM END
+////////MANUAL ARM END
 
 ////////AUTO ARM
             if (gamepad1.left_bumper)
@@ -180,22 +148,38 @@ public class TeleOp18_19 extends LinearOpMode
             {
                 if(h.motorArm.getCurrentPosition() < 2000)
                 {
-                    h.motorWinch.setTargetPosition(0);
+                    //h.motorWinch.setTargetPosition(0);
                     h.motorArm.setTargetPosition(2500);
                 }
                 if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 4000)
                 {
-                    h.motorWinch.setTargetPosition(1000);
+                    h.motorWinch.setTargetPosition(1500);
                     h.motorArm.setTargetPosition(4500);
                 }
-                if(h.motorArm.getCurrentPosition() > 4000 && h.motorArm.getCurrentPosition() < 6000)
+                if(h.motorArm.getCurrentPosition() > 4000 && h.motorArm.getCurrentPosition() < 10700)
                 {
-                    //h.motorArm.setTargetPosition();
+                    h.motorWinch.setTargetPosition(3700);
+                    h.motorArm.setTargetPosition(10700);
                 }
-
             }
             if(isRaisingArmDown)
             {
+                if(h.motorArm.getCurrentPosition() >= 10000)
+                {
+                    h.motorWinch.setTargetPosition(2500);
+                    h.motorArm.setTargetPosition(4500);
+                }
+                if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 10000)
+                {
+                    h.motorWinch.setTargetPosition(1500);
+                    h.motorArm.setTargetPosition(1500);
+                }
+                if(h.motorArm.getCurrentPosition() < 2000)
+                {
+                    //h.motorWinch.setTargetPosition(0);
+                    h.motorArm.setTargetPosition(1000);
+                }
+
 
             }
 ////////AUTO ARM END
@@ -232,11 +216,11 @@ public class TeleOp18_19 extends LinearOpMode
 ///////////FLAP SERVO
             if(gamepad1.y)
             {
-                h.bucketFlapServo.setPosition(0.45);
+                h.bucketFlapServo.setPosition(0);
             }
             else
             {
-                h.bucketFlapServo.setPosition(0);
+                h.bucketFlapServo.setPosition(0.4);
             }
 
 
