@@ -140,26 +140,29 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         waitForStart();
 
-
         //START
 
-        /*
-
-        h.motorLift.setTargetPosition(9700);
+        h.motorLift.setTargetPosition(10100);
         h.motorLift.setPower(1);
 
+        h.motorArm.setTargetPosition(2000);
+        h.motorArm.setPower(1);
+
         try{
-            Thread.sleep(6000);
+            Thread.sleep(7000);
         }catch(Exception e){}
 
-
-        h.strafe(false,8,0.5);
-
         h.motorLift.setTargetPosition(0);
+        h.motorLift.setPower(1);
 
         h.strafe(true,8,0.5);
 
-        */
+        h.motorLift.setTargetPosition(0);
+        try{
+            Thread.sleep(2000);
+        }catch(Exception e){}
+
+        h.strafe(false,8,0.5);
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
@@ -230,11 +233,13 @@ public class TensorFlowOnlyGold extends LinearOpMode
             tfod.shutdown();
         }
 
+        h.motorArm.setTargetPosition(0);
+
         h.drive(true, 12, 0.5);
         
         if(positionFromLeft == 1)
         {
-            h.turn(-40, 0.5, 0.1);
+            h.turn(40, 0.5, 0.1);
             h.drive(true, 24, 0.5);
 
             h.drive(false, 24, 0.5);
@@ -249,7 +254,7 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         if(positionFromLeft == 3)
         {
-            h.turn(40, 0.5, 0.1);
+            h.turn(-40, 0.5, 0.1);
             h.drive(true, 24, 0.5);
 
             h.drive(false, 24, 0.5);
@@ -257,14 +262,20 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         }
         //END OF SAMPLING
-        
+
+
         //Drive to wall
+        h.turn(90, 0.5, 0.1);
+        h.drive(true, 30, 1);
+
         
         //drive to depot
-        
+        h.turn(135, 0.5, 0.1);
+        h.drive(true, 40, 0.5);
+
         //drop off marker
-        
-        //drive to crater\
+        //h.motorSpinner.setPower(0.5);
+        //drive to crater
 
 
 

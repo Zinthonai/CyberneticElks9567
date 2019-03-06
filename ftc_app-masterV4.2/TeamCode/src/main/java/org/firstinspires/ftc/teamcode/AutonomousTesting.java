@@ -73,7 +73,7 @@ public class AutonomousTesting extends LinearOpMode
         waitForStart();
 ////////////////AUTONOMOUS////////////////
 
-        h.turn(30, 0.5, 0.5);
+        h.strafe(true, 10, 0.4);
 
 
         while(opModeIsActive())

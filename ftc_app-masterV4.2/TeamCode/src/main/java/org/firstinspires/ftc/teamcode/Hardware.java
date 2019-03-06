@@ -100,7 +100,7 @@ public class Hardware extends LinearOpMode
         motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        distanceEncodeVal = -(int)Math.round((distanceInches/(4*Math.PI))*1120);
+        distanceEncodeVal = (int)Math.round((distanceInches/(4*Math.PI))*1120);
         driveTime = (distanceInches/10)*1000;
 
 
