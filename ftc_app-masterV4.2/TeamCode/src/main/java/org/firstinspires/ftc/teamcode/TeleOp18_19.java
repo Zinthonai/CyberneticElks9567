@@ -214,16 +214,19 @@ public class TeleOp18_19 extends LinearOpMode
             }
 
 ///////////FLAP SERVO
+
             if(gamepad1.y)
             {
-                h.bucketFlapServo.setPosition(0);
+                h.bucketFlapServo.setPosition(0.5);
             }
             else
             {
-                h.bucketFlapServo.setPosition(0.4);
+                h.bucketFlapServo.setPosition(0.8);
             }
 
 
+            //For testing
+            //h.bucketFlapServo.setPosition(gamepad2.right_stick_y);
 
         }
     }

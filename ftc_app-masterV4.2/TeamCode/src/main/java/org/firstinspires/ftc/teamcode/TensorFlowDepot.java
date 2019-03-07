@@ -32,11 +32,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -54,9 +52,9 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "TensorFlow Crater", group = "Linear OpMode")
+@Autonomous(name = "TensorFlow Depot", group = "Linear OpMode")
 
-public class TensorFlowOnlyGold extends LinearOpMode
+public class TensorFlowDepot extends LinearOpMode
 {
 
     int positionFromLeft;
@@ -260,24 +258,28 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         }
         //END OF SAMPLING
+        //Drive closer to depot
 
+        h.drive(true, 10, 0.5);
 
-        //Drive to wall
-        h.turn(90, 0.5, 0.2);
-        h.drive(true, 45, 0.8);
-        
-        //drive to depot
-        h.turn(135, 0.5, 0.2);
-        h.drive(true, 40, 1);
+        h.motorArm.setTargetPosition(4000);
 
-        //drop off marker
-        h.bucketFlapServo.setPosition(0.25);
-        //drive to crater
         try{
             Thread.sleep(3000);
         }catch(Exception e){}
 
-        h.drive(false, 70, 1);
+        h.motorWinch.setTargetPosition(3250);
+        h.motorWinch.setPower(1);
+
+        //Drop off marker... hopefully
+
+        h.motorWinch.setTargetPosition(0);
+
+        try{
+            Thread.sleep(3000);
+        }catch(Exception e){}
+
+        h.motorArm.setTargetPosition(0);
 
 
 

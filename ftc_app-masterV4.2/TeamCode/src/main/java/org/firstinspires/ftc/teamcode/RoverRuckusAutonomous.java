@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -45,7 +46,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.sun.tools.javac.Main;
 
 @Autonomous (name = "Rover Ruckus Autonomous Crater", group = "Autonomous")
-
+@Disabled
 public class RoverRuckusAutonomous extends LinearOpMode
 {
 
