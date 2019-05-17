@@ -69,11 +69,11 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 h.motorWinch.setTargetPosition(h.motorWinch.getCurrentPosition());
             }
-            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 1000)
+            if (gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 0)
             {
                 h.motorWinch.setPower(1);
-                h.motorWinch.setTargetPosition(1000);
-                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 1000 && opModeIsActive())
+                h.motorWinch.setTargetPosition(0);
+                while(gamepad1.dpad_down && h.motorWinch.getCurrentPosition() > 0 && opModeIsActive())
                 {
 
                 }
@@ -106,7 +106,7 @@ public class TeleOp18_19 extends LinearOpMode
                 isRaisingArmDown = false;
 
                 h.motorArm.setPower(1);
-                h.motorArm.setTargetPosition(10700);
+                h.motorArm.setTargetPosition(11000);
 
                 while (gamepad1.right_trigger > 0 && opModeIsActive()) {
                 }
@@ -146,24 +146,32 @@ public class TeleOp18_19 extends LinearOpMode
             }
             if(isRaisingArmUp)
             {
+                h.motorArm.setPower(1);
+                h.motorWinch.setPower(1);
                 if(h.motorArm.getCurrentPosition() < 2000)
                 {
+
+
                     //h.motorWinch.setTargetPosition(0);
                     h.motorArm.setTargetPosition(2500);
                 }
                 if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 4000)
                 {
+
                     h.motorWinch.setTargetPosition(1500);
                     h.motorArm.setTargetPosition(4500);
                 }
-                if(h.motorArm.getCurrentPosition() > 4000 && h.motorArm.getCurrentPosition() < 10700)
+                if(h.motorArm.getCurrentPosition() > 4000 && h.motorArm.getCurrentPosition() < 11000)
                 {
-                    h.motorWinch.setTargetPosition(3700);
-                    h.motorArm.setTargetPosition(10700);
+
+                    h.motorWinch.setTargetPosition(3600);
+                    h.motorArm.setTargetPosition(10500);
                 }
             }
             if(isRaisingArmDown)
             {
+                h.motorArm.setPower(1);
+                h.motorWinch.setPower(1);
                 if(h.motorArm.getCurrentPosition() >= 10000)
                 {
                     h.motorWinch.setTargetPosition(2500);
@@ -176,8 +184,8 @@ public class TeleOp18_19 extends LinearOpMode
                 }
                 if(h.motorArm.getCurrentPosition() < 2000)
                 {
-                    //h.motorWinch.setTargetPosition(0);
-                    h.motorArm.setTargetPosition(1000);
+                    h.motorWinch.setTargetPosition(0);
+                    h.motorArm.setTargetPosition(0);
                 }
 
 
@@ -185,10 +193,10 @@ public class TeleOp18_19 extends LinearOpMode
 ////////AUTO ARM END
 
 ////////ACTUATOR
-            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 10100)
+            if (gamepad1.dpad_left && h.motorLift.getCurrentPosition() < 13000)
             {
                 h.motorLift.setPower(1);
-                h.motorLift.setTargetPosition(10100);
+                h.motorLift.setTargetPosition(13000);
             }
             if(gamepad1.right_stick_button)
             {
@@ -197,8 +205,8 @@ public class TeleOp18_19 extends LinearOpMode
             if(liftToTop)
             {
                 h.motorLift.setPower(1);
-                h.motorLift.setTargetPosition(10100);
-                if(h.motorLift.getCurrentPosition() > 10050)
+                h.motorLift.setTargetPosition(13000);
+                if(h.motorLift.getCurrentPosition() >= 13000)
                 {
                     liftToTop = false;
                 }

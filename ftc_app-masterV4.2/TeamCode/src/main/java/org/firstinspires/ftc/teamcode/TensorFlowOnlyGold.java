@@ -142,7 +142,7 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         //START
 
-        h.motorLift.setTargetPosition(10100);
+        h.motorLift.setTargetPosition(13000);
         h.motorLift.setPower(1);
 
         h.motorArm.setTargetPosition(2000);
@@ -154,13 +154,12 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         h.strafe(true,10,0.4);
 
+        h.motorLift.setTargetPosition(0);
         try{
             Thread.sleep(500);
         }catch(Exception e){}
 
-        h.motorLift.setTargetPosition(0);
-
-        h.strafe(false,10,0.4);
+        h.strafe(false,10, 0.4);
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
@@ -238,25 +237,23 @@ public class TensorFlowOnlyGold extends LinearOpMode
         if(positionFromLeft == 1)
         {
             h.turn(40, 0.5, 0.2);
-            h.drive(true, 22, 0.5);
+            h.drive(true, 24, 0.5);
 
-            h.drive(false, 22, 0.5);
-            h.turn(1, 0.5, 0.2);
+            h.drive(false, 24, 0.5);
         }
 
         if(positionFromLeft == 2)
         {
-            h.drive(true,16,0.5);
-            h.drive(false, 16, 0.5);
+            h.drive(true,20,0.5);
+            h.drive(false, 20, 0.5);
         }
 
         if(positionFromLeft == 3)
         {
             h.turn(-40, 0.5, 0.2);
-            h.drive(true, 22, 0.5);
+            h.drive(true, 24, 0.5);
 
-            h.drive(false, 22, 0.5);
-            h.turn(1, 0.5, 0.2);
+            h.drive(false, 24, 0.5);
 
         }
         //END OF SAMPLING
@@ -264,17 +261,23 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         //Drive to wall
         h.turn(90, 0.5, 0.2);
-        h.drive(true, 45, 0.8);
+        h.drive(true, 42, 0.8);
         
         //drive to depot
         h.turn(135, 0.5, 0.2);
         h.drive(true, 40, 1);
 
+        try{
+            Thread.sleep(1000);
+        }catch(Exception e){}
+
         //drop off marker
-        h.bucketFlapServo.setPosition(0.25);
+        h.bucketFlapServo.setPosition(0.2);
+        h.drive(true, 2, 1);
+
         //drive to crater
         try{
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         }catch(Exception e){}
 
         h.drive(false, 70, 1);

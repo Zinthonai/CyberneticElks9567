@@ -140,7 +140,7 @@ public class TensorFlowDepot extends LinearOpMode
 
         //START
 
-        h.motorLift.setTargetPosition(10100);
+        h.motorLift.setTargetPosition(13000);
         h.motorLift.setPower(1);
 
         h.motorArm.setTargetPosition(2000);
@@ -236,30 +236,30 @@ public class TensorFlowDepot extends LinearOpMode
         if(positionFromLeft == 1)
         {
             h.turn(40, 0.5, 0.2);
-            h.drive(true, 22, 0.5);
+            h.drive(true, 26, 0.5);
 
-            h.drive(false, 22, 0.5);
+            h.drive(false, 26, 0.5);
             h.turn(1, 0.5, 0.2);
         }
 
         if(positionFromLeft == 2)
         {
-            h.drive(true,16,0.5);
-            h.drive(false, 16, 0.5);
+            h.drive(true,35,0.5);
+            h.drive(false, 35, 0.5);
         }
 
         if(positionFromLeft == 3)
         {
             h.turn(-40, 0.5, 0.2);
-            h.drive(true, 22, 0.5);
+            h.drive(true, 26, 0.5);
 
-            h.drive(false, 22, 0.5);
+            h.drive(false, 26, 0.5);
             h.turn(1, 0.5, 0.2);
 
         }
         //END OF SAMPLING
         //Drive closer to depot
-
+/*
         h.drive(true, 10, 0.5);
 
         h.motorArm.setTargetPosition(4000);
@@ -282,7 +282,7 @@ public class TensorFlowDepot extends LinearOpMode
         h.motorArm.setTargetPosition(0);
 
 
-
+*/
 
         while (opModeIsActive())
         {
