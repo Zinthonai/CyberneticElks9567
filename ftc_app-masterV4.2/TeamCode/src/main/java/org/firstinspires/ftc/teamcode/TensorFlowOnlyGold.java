@@ -154,6 +154,7 @@ public class TensorFlowOnlyGold extends LinearOpMode
 
         h.strafe(true,10,0.4);
 
+
         h.motorLift.setTargetPosition(0);
         try{
             Thread.sleep(500);

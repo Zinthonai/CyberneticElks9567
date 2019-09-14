@@ -153,14 +153,14 @@ public class TeleOp18_19 extends LinearOpMode
 
 
                     //h.motorWinch.setTargetPosition(0);
-                    h.motorArm.setTargetPosition(2500);
+                    h.motorArm.setTargetPosition(4500);
                 }
-                if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 4000)
+                /*if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 4000)
                 {
 
                     h.motorWinch.setTargetPosition(1500);
                     h.motorArm.setTargetPosition(4500);
-                }
+                }*/
                 if(h.motorArm.getCurrentPosition() > 4000 && h.motorArm.getCurrentPosition() < 11000)
                 {
 
@@ -172,17 +172,20 @@ public class TeleOp18_19 extends LinearOpMode
             {
                 h.motorArm.setPower(1);
                 h.motorWinch.setPower(1);
-                if(h.motorArm.getCurrentPosition() >= 10000)
+
+                if(h.motorArm.getCurrentPosition() > 3000)
                 {
                     h.motorWinch.setTargetPosition(2500);
-                    h.motorArm.setTargetPosition(4500);
+                    h.motorArm.setTargetPosition(2500);
                 }
-                if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 10000)
+
+
+                /*if(h.motorArm.getCurrentPosition() > 2000 && h.motorArm.getCurrentPosition() < 10000)
                 {
                     h.motorWinch.setTargetPosition(1500);
                     h.motorArm.setTargetPosition(1500);
-                }
-                if(h.motorArm.getCurrentPosition() < 2000)
+                }*/
+                if(h.motorArm.getCurrentPosition() < 3000)
                 {
                     h.motorWinch.setTargetPosition(0);
                     h.motorArm.setTargetPosition(0);

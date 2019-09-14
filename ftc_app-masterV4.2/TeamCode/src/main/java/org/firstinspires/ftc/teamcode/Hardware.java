@@ -26,6 +26,8 @@ public class Hardware extends LinearOpMode
 
     Servo markerDropServo;
     Servo bucketFlapServo;
+    Servo servoGrabberL;
+    Servo servoGrabberR;
 
     ModernRoboticsI2cGyro MRGyro;
     ModernRoboticsI2cRangeSensor MRRange;
@@ -61,6 +63,8 @@ public class Hardware extends LinearOpMode
 
         markerDropServo = aMap.servo.get("markerDropServo");
         bucketFlapServo = aMap.servo.get("bucketFlapServo");
+        servoGrabberL = aMap.servo.get("servoGrabberL");
+        servoGrabberR = aMap .servo.get("ServoGrabberR");
 
         MRGyro = aMap.get(ModernRoboticsI2cGyro.class, "gyro");
         MRRange = aMap.get(ModernRoboticsI2cRangeSensor.class, "MRRange");
